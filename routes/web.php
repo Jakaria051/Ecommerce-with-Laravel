@@ -28,8 +28,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('/admin')->namespace('Admin')->group(function () {
 
     //we will defined all the admin routes like /admin/dashboad  ..controller Admin.AdminComtroller
-
     Route::match(['get', 'post'],'/','AdminController@login');
-    Route::get('dashboard','AdminController@dashboard');
+
+    Route::group(['middleware' => ['admin']], function () {
+
+        Route::get('dashboard','AdminController@dashboard');
+        Route::get('settings','AdminController@settings');
+        Route::get('logout','AdminController@logout');
+    });
+
 
 });
