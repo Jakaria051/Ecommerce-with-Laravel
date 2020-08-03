@@ -15,7 +15,7 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="{{ url('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
   <!-- JQVMap -->
-  <link rel="stylesheet" href="{{ url('plugins/jqvmap/jqvmap.min.css') }}">
+  {{-- <link rel="stylesheet" href="{{ url('plugins/jqvmap/jqvmap.min.css') }}"> --}}
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ url('css/admin_css/adminlte.min.css') }}">
   <!-- overlayScrollbars -->
@@ -88,5 +88,10 @@
 <script src="{{ url('js/admin_js/pages/dashboard.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ url('js/admin_js/demo.js') }}"></script>
+
+{{-- Custom js --}}
+
+<script src="{{ url('js/admin_js/admin_script.js') }}" ></script>
+
 </body>
 </html>
