@@ -119,7 +119,7 @@ class AdminController extends Controller
              ];
              $custom_message = [
                  'admin_name.required' => 'Admin name is required',
-                 'admin_name.alpha' => 'Valid Admin name is required',
+                 'admin_name.regex' => 'Valid Admin name is required',
                  'admin_mobile.required' => 'Mobile number is required',
                  'admin_mobile.numeric' =>'Valid Mobile number is required',
                 // 'admin_image.image' => 'Valid image is required'
@@ -143,28 +143,6 @@ class AdminController extends Controller
             }else{
                 $imageName = "";
             }
-
-
-
-
-            //  //upload image
-            //  if($request->hasFile('admin_image')){
-            //      $image_tmp = $request->file('admin_image');
-            //      if($image_tmp->isValid()){
-            //          //get the extension
-            //          $extension = $image_tmp->getClientOriginalExtension();
-            //          //generate image name
-            //          $imageName = rand(111,99999).'.'.$extension;
-            //          $imagePath = 'images/admin_images/admin_photos/'.$imageName;
-            //          //upload the image
-            //          Image::make($image_tmp)->save($imagePath);
-            //      }else if(!empty($data['current_admin_image'])){
-            //          $imageName = $data['current_admin_image'];
-            //      }else{
-            //          $imageName = "";
-            //      }
-            //    }
-
 
              //update Admin Details
              Admin::where('email',Auth::guard('admin')->user()->email)
