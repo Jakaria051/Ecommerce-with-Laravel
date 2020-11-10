@@ -45,6 +45,7 @@ class CategoryController extends Controller
             $category = new Category;
             $categorydata = array();
             $getCategories = array();
+            $message = "Category added successfully";
         }else{
             //edit category functionality
             $title = "Edit Category";
@@ -53,6 +54,9 @@ class CategoryController extends Controller
             $getCategories = Category :: with('subcategories')->where(['parent_id'=>0,'section_id'=>$categorydata['section_id']])->get();
             $getCategories = json_decode(json_encode($getCategories),true);
            // echo "<pre>"; print_r($getCategories); die;
+           $category = Category::find($id);
+           $message = "Category updated successfully";
+
         }
 
         if($request->isMethod('post')){
@@ -120,7 +124,7 @@ class CategoryController extends Controller
             $category->status = 1;
             $category->save();
 
-            Session::flash('success_message','Category added successfully');
+            Session::flash('success_message', $message);
             return redirect('admin/categories');
 
         }
@@ -144,5 +148,23 @@ class CategoryController extends Controller
 
 
         }
+    }
+
+    public function deleteCategoryImage($id) {
+        $categoryImage = Category::select('category_image')->where('id',$id)->first();
+        $category_image_path = 'images/category_images/';
+        if(file_exists($category_image_path.$categoryImage->category_image)) {
+            unlink($category_image_path.$categoryImage->category_image);
+        }
+
+        Category::where('id',$id)->update(['category_image'=>'']);
+        $message = "Category Image has been delted successfully!";
+        return redirect()->back()->with('success_message',$message);
+    }
+
+    public function deleteCategory($id){
+        Category::where('id',$id)->delete();
+        $message = "Category has been delted successfully!";
+        return redirect()->back()->with('success_message',$message);
     }
 }

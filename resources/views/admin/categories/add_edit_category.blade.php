@@ -35,12 +35,19 @@
            </div>
            @endif
 
+           @if (Session :: has('success_message'))
+            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                {{ Session:: get('success_message') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @endif
+
+
         <!-- SELECT2 EXAMPLE -->
-      <form @if (empty($categorydata['id']))
-      action="{{ url('admin/add-edit-category') }}"
-      @else
-      action="{{ url('admin/add-edit-category/'.$categorydata['id']) }}"
-      @endif  name="categoryForm" id="categoryForm"
+      <form @if (empty($categorydata['id'])) action="{{ url('admin/add-edit-category') }}"
+      @else action="{{ url('admin/add-edit-category/'.$categorydata['id']) }}" @endif  name="categoryForm" id="categoryForm"
       method="post" enctype="multipart/form-data">
       @csrf
         <div class="card card-default">
@@ -103,6 +110,13 @@
                         <span class="input-group-text" id="">Upload</span>
                       </div>
                     </div>
+                    @if (!empty($categorydata['category_image']))
+                    <div style="height: 100px;">
+                    <img style="width: 70px;margin-top:7px;" src="{{ asset('images/category_images/'.$categorydata['category_image']) }}" alt="image-potion">
+                    &nbsp;
+                    <a href="{{ url('admin/delete-category-image/'.$categorydata['id']) }}">Delete Image</a>
+                    </div>
+                    @endif
                   </div>
                 <!-- /.form-group -->
               </div>
@@ -148,12 +162,12 @@
 
                   <div class="form-group">
                     <label for="meta_title">Meta Title</label>
-                    <textarea class="form-control" name="meta_title" id="meta_title" rows="3" placeholder="Enter ..."
-                    @if (!empty($categorydata['meta_title']))
-                    value="{{ $categorydata['meta_title'] }}"
-                    @else
-                   value="{{ old('meta_title') }}"
-                    @endif></textarea>
+                    <textarea class="form-control" name="meta_title" id="meta_title" rows="3" placeholder="Enter ...">
+                         @if (!empty($categorydata['meta_title']))
+                   {{ $categorydata['meta_title'] }}
+                  @else
+                  {{ old('meta_title') }}
+                  @endif</textarea>
                   </div>
                 <!-- /.form-group -->
               </div>
@@ -164,11 +178,13 @@
                     <div class="form-group">
                         <label for="meta_description">Meta Description</label>
                         <textarea class="form-control" id="meta_description" name="meta_description" rows="3" placeholder="Enter ..."
-                        @if (!empty($categorydata['meta_description']))
-                    value="{{ $categorydata['meta_description'] }}"
-                    @else
-                   value="{{ old('meta_description') }}"
-                    @endif></textarea>
+                       >
+                       @if (!empty($categorydata['meta_description']))
+                       {{ $categorydata['meta_description'] }}
+                     @else
+                      {{ old('meta_description') }}
+                     @endif
+                    </textarea>
                       </div>
 
                     <!-- /.form-group -->
@@ -180,11 +196,13 @@
                       <div class="form-group">
                         <label for="meta_keywords">Meta Keywords</label>
                         <textarea class="form-control" id="meta_keywords" name="meta_keywords" rows="3" placeholder="Enter ..."
-                        @if (!empty($categorydata['meta_keywords']))
-                    value="{{ $categorydata['meta_keywords'] }}"
-                    @else
-                   value="{{ old('meta_keywords') }}"
-                    @endif></textarea>
+                       >
+                       @if (!empty($categorydata['meta_keywords']))
+                       {{ $categorydata['meta_keywords'] }}
+                       @else
+                     {{ old('meta_keywords') }}
+                       @endif
+                    </textarea>
                       </div>
                     <!-- /.form-group -->
                   </div>
