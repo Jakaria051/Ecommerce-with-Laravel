@@ -6,7 +6,7 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use App\Section;
 use Illuminate\Http\Request;
-use Session;
+use Illuminate\Support\Facades\Session;
 use Image;
 
 use function GuzzleHttp\json_decode;

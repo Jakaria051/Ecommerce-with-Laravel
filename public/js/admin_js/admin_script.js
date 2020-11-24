@@ -92,6 +92,31 @@ $(document).ready(function(){
        });
     });
 
+    ///update product status
+
+    $(".updateProductStatus").click(function(){
+        let status = $(this).text();
+        let product_id = $(this).attr("product_id");
+        $.ajax({
+            type:'post',
+            url:'/admin/update-product-status',
+            data:{status:status,product_id:product_id},
+            success:function(resp){
+                if(resp['status']==0)
+                {
+                   $("#product-"+product_id).html("<a class='updateProductStatus' href='javascript:void(0)'>Inactive</a>");
+                }else if(resp['status']==1){
+                   $("#product-"+product_id).html("<a class='updateProductStatus' href='javascript:void(0)'>Active</a>");
+
+                }
+            },
+            error:function(resp){
+                alert(resp);
+            }
+        });
+
+    });
+
     ///Confirm delete of record by simple jquery
     // $('.confirmDelete').click(function(){
     //     let name = $(this).attr("name");
