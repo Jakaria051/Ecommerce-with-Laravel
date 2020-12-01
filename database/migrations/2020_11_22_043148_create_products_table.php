@@ -23,8 +23,8 @@ class CreateProductsTable extends Migration
             $table->float('product_price');
             $table->float('product_discount');
             $table->float('product_weight');
-            $table->string('product_video');
-            $table->string('main_image');
+            $table->string('product_video')->nullable();
+            $table->string('main_image')->nullable();
             $table->text('description');
             $table->string('wash_care');
             $table->string('fabric');

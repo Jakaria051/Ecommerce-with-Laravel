@@ -71,9 +71,9 @@
                         @foreach ($categories as $section)
                          <optgroup label="{{ $section['name'] }}"></optgroup>
                              @foreach ($section['categories'] as $category)
-                                 <option value="{{ $category['id'] }}">&nbsp;&nbsp;--&nbsp;&nbsp;{{ $category['category_name'] }}</option>
+                                 <option value="{{ $category['id'] }}" @if(!empty(@old('category_id')) && $category['id'] == @old('category_id')) selected="" @endif>&nbsp;&nbsp;--&nbsp;&nbsp;{{ $category['category_name'] }}</option>
                                     @foreach ($category['subcategories'] as $subCategory)
-                                     <option value="{{ $subCategory['id'] }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;{{ $subCategory['category_name'] }}</option>
+                                     <option value="{{ $subCategory['id'] }}" @if (!empty(@old('category_id')) && $subCategory['id'] == @old('category_id')) selected="" @endif >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;{{ $subCategory['category_name'] }}</option>
                                     @endforeach
                                 @endforeach
                          @endforeach
@@ -159,6 +159,7 @@
                         <span class="input-group-text" id="">Upload</span>
                       </div>
                     </div>
+                    <div>Recommended Image Size:(1040px,Heght:1200px)</div>
                   </div>
               </div>
 
@@ -211,7 +212,7 @@
                     <select name="fabric" id="fabric" class="form-control select2" style="width: 100%;">
                         <option value="">Select</option>
                     @foreach ($fabricArray as $fabric)
-                     <option value="{{ $fabric }}">{{ $fabric }}</option>
+                     <option value="{{ $fabric }}" @if(!empty(@old('fabric')) && $fabric == @old('fabric')) selected="" @endif>{{ $fabric }}</option>
                     @endforeach
                     </select>
                   </div>
@@ -223,7 +224,7 @@
                     <select name="sleeve" id="sleeve" class="form-control select2" style="width: 100%;">
                         <option value="">Select</option>
                     @foreach ($sleeveArray as $sleeve)
-                     <option value="{{ $sleeve }}">{{ $sleeve }}</option>
+                     <option value="{{ $sleeve }}" @if(!empty(@old('sleeve')) && $sleeve == @old('sleeve')) selected="" @endif>{{ $sleeve }}</option>
                     @endforeach
                     </select>
                   </div>
@@ -232,7 +233,7 @@
                     <select name="pattern" id="pattern" class="form-control select2" style="width: 100%;">
                         <option value="">Select</option>
                     @foreach ($PatternArray as $pattern)
-                     <option value="{{ $pattern }}">{{ $pattern }}</option>
+                     <option value="{{ $pattern }}" @if(!empty(@old('pattern')) && $pattern == @old('pattern')) selected="" @endif>{{ $pattern }}</option>
                     @endforeach
                     </select>
                   </div>
@@ -244,7 +245,7 @@
                     <select name="fit" id="fit" class="form-control select2" style="width: 100%;">
                         <option value="">Select</option>
                     @foreach ($fitArray as $fit)
-                     <option value="{{ $fit }}">{{ $fit }}</option>
+                     <option value="{{ $fit }}" @if(!empty(@old('fit')) && $fit == @old('fit')) selected="" @endif>{{ $fit }}</option>
                     @endforeach
                     </select>
                   </div>
@@ -253,7 +254,7 @@
                     <select name="occasion" id="occasion" class="form-control select2" style="width: 100%;">
                         <option value="">Select</option>
                     @foreach ($occasionArray as $occasion)
-                     <option value="{{ $occasion }}">{{ $occasion }}</option>
+                     <option value="{{ $occasion }}" @if(!empty(@old('occasion')) && $occasion == @old('occasion')) selected="" @endif>{{ $occasion }}</option>
                     @endforeach
                     </select>
                   </div>
@@ -302,7 +303,7 @@
                       </div>
                       <div class="form-group">
                         <label for="is_featured">Is Featured</label>
-                        <input type="checkbox" name="is_featured" id="is_featured" value="1">
+                        <input type="checkbox" name="is_featured" id="is_featured" value="Yes">
                       </div>
                   </div>
                   <!-- /.col -->

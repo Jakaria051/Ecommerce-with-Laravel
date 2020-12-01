@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Intervention\Image\Facades\Image;
 
 class ProductsController extends Controller
 {
@@ -43,8 +45,138 @@ class ProductsController extends Controller
     public function addEditProduct(Request $request,$id=null) {
         if($id == "") {
             $title = "Add Product";
+            $product = new Product;
         }else {
             $title = "Edit Product";
+        }
+
+        if($request->isMethod('post')) {
+              $data = $request->all();
+
+             $rules = [
+                'category_id' => 'required',
+                'product_name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'product_code' => 'required|regex:/^[\w-]*$/',
+                'product_price' => 'required',
+                'product_color' => 'required|regex:/^[\pL\s\-]+$/u',
+            ];
+            $custom_message = [
+                'category_id.required' => 'Category is required',
+                'product_name.required' => 'Product name is required',
+                'product_name.regex' => 'Valid Product name is required',
+                'product_code.required' => 'Product code is required',
+                'product_code.regex' => 'Valid Product code is required',
+                'product_price.required' => 'Product price is required',
+                'product_color.required' => 'Product color is required',
+                'product_color.regex' => 'Valid Product color is required',
+            ];
+            $this->validate($request,$rules,$custom_message);
+
+            if(empty($data['is_featured'])) {
+                $is_featured = "No";
+            }else{
+                $is_featured = "Yes";
+            }
+
+            if(empty($data['product_discount'])) {
+                $data['product_discount'] = 0.00;
+            }
+            if(empty($data['product_weight'])) {
+                $data['product_weight'] = 0.00;
+            }
+
+            if(empty($data['description'])) {
+                $data['description'] = "";
+            }
+
+            if(empty($data['wash_care'])) {
+                $data['wash_care'] = "";
+            }
+
+            if(empty($data['fabric'])) {
+                $data['fabric'] = "";
+            }
+            if(empty($data['pattern'])) {
+                $data['pattern'] = "";
+            }
+            if(empty($data['sleeve'])) {
+                $data['sleeve'] = "";
+            }
+            if(empty($data['fit'])) {
+                $data['fit'] = "";
+            }
+            if(empty($data['occasion'])) {
+                $data['occasion'] = "";
+            }
+            if(empty($data['meta_title'])) {
+                $data['meta_title'] = "";
+            }
+            if(empty($data['meta_description'])) {
+                $data['meta_description'] = "";
+            }
+            if(empty($data['meta_keywords'])) {
+                $data['meta_keywords'] = "";
+            }
+
+            //upload product image
+            if($request->hasFile('main_image')) {
+                $image_tmp = $request->file('main_image');
+                if($image_tmp->isValid()){
+                    $image_name = $image_tmp->getClientOriginalName();
+                    $extension = $image_tmp->getClientOriginalExtension();
+
+                    $imageName = $image_name.'-'.rand(111,99999).'.'.$extension;
+                    $large_image_path = 'images/product_images/large/'.$imageName;
+                    $medium_image_path = 'images/product_images/medium/'.$imageName;
+                    $small_image_path = 'images/product_images/small/'.$imageName;
+                    Image::make($image_tmp)->save($large_image_path); //w-1040 H-1200
+                    Image::make($image_tmp)->resize(520,600)->save($medium_image_path);
+                    Image::make($image_tmp)->resize(260,300)->save($small_image_path);
+                    $product->main_image = $imageName;
+
+                }
+            }
+            //upload product video
+            if($request->hasFile('product_video')) {
+                $video_tmp = $request->file('product_video');
+                if($video_tmp->isValid()) {
+                    $video_name = $video_tmp->getClientOriginalName();
+                    $extension = $video_tmp->getClientOriginalExtension();
+                    $videoName = $video_name.'-'.rand().'.'.$extension;
+                    $video_path = 'videos/product_videos';
+                    $video_tmp->move($video_path,$videoName);
+                    $product->product_video = $videoName;
+                }
+            }
+
+            //Save the products details in products table
+
+            $categoryDetails = Category::findOrFail($data['category_id']);
+            $product->section_id = $categoryDetails['section_id'];
+            $product->category_id = $data['category_id'];
+            $product->product_name = $data['product_name'];
+            $product->product_code = $data['product_code'];
+            $product->product_color = $data['product_color'];
+            $product->product_price = $data['product_price'];
+            $product->product_discount = $data['product_discount'];
+            $product->product_weight = $data['product_weight'];
+            $product->description = $data['description'];
+            $product->wash_care = $data['wash_care'];
+            $product->fabric = $data['fabric'];
+            $product->pattern = $data['pattern'];
+            $product->sleeve = $data['sleeve'];
+            $product->fit = $data['fit'];
+            $product->occasion = $data['occasion'];
+            $product->meta_title = $data['meta_title'];
+            $product->meta_description = $data['meta_description'];
+            $product->meta_keywords = $data['meta_keywords'];
+            $product->is_featured = $is_featured;
+            $product->status = 1;
+            $product->save();
+
+            Session::flash('success_message','Product is added successfully');
+            return redirect('admin/products');
+
         }
 
         //Filter Arrays
