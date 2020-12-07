@@ -2,6 +2,7 @@
 
 use App\Product;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProductsTableSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('products')->truncate();
+
         $productRecords = [
             [
                 'id'=>1,'category_id'=>2,'section_id'=>1,'product_name'=>'Blue Casula T-Shirt',

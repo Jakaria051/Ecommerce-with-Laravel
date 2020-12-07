@@ -2,6 +2,7 @@
 
 use App\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CategoryTableSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('categories')->truncate();
+
         $categoryRecords = [
             ['id'=>1,'parent_id'=>0,'section_id'=>1,'category_name'=>'T-Shirts',
             'category_image'=>'','category_discount'=>0,'description'=>'',

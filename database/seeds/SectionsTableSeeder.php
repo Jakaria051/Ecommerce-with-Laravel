@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Section;
+use Illuminate\Support\Facades\DB;
 
 class SectionsTableSeeder extends Seeder
 {
@@ -12,7 +13,8 @@ class SectionsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('sections')->truncate();
+
         $sectionsRecords = [
             ['id'=>1,'name'=>'Men','status'=>1],
             ['id'=>2,'name'=>'Women','status'=>1],

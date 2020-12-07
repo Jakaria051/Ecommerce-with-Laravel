@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Category;
-use App\Http\Controllers\Controller;
 use App\Product;
+use App\Http\Controllers\Controller;
 use App\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -14,8 +13,8 @@ class ProductsController extends Controller
 {
     public function products() {
         Session::put('page','products');
-     $products = Product::with(['category'=> function($query){
-          $query->select('id','category_name');
+        $products = Product::with(['category'=> function($query){
+            $query->select('id','category_name');
       },'section'=>function($query) {
           $query->select('id','name');
       } ])->get();
@@ -46,8 +45,15 @@ class ProductsController extends Controller
         if($id == "") {
             $title = "Add Product";
             $product = new Product;
+            $productdata = array();
+            $message = "Product added successfully";
         }else {
             $title = "Edit Product";
+            $productdata = Product::find($id);
+            $productdata = json_decode(json_encode($productdata),true);
+            $product = Product::find($id);
+            $message = "Product updated successfully";
+
         }
 
         if($request->isMethod('post')) {
@@ -61,7 +67,7 @@ class ProductsController extends Controller
                 'product_color' => 'required|regex:/^[\pL\s\-]+$/u',
             ];
             $custom_message = [
-                'category_id.required' => 'Category is required',
+                'category_id.required' => 'Product is required',
                 'product_name.required' => 'Product name is required',
                 'product_name.regex' => 'Valid Product name is required',
                 'product_code.required' => 'Product code is required',
@@ -124,7 +130,7 @@ class ProductsController extends Controller
                 if($image_tmp->isValid()){
                     $image_name = $image_tmp->getClientOriginalName();
                     $extension = $image_tmp->getClientOriginalExtension();
-
+					//rename
                     $imageName = $image_name.'-'.rand(111,99999).'.'.$extension;
                     $large_image_path = 'images/product_images/large/'.$imageName;
                     $medium_image_path = 'images/product_images/medium/'.$imageName;
@@ -151,7 +157,7 @@ class ProductsController extends Controller
 
             //Save the products details in products table
 
-            $categoryDetails = Category::findOrFail($data['category_id']);
+            $categoryDetails = Product::findOrFail($data['category_id']);
             $product->section_id = $categoryDetails['section_id'];
             $product->category_id = $data['category_id'];
             $product->product_name = $data['product_name'];
@@ -174,7 +180,7 @@ class ProductsController extends Controller
             $product->status = 1;
             $product->save();
 
-            Session::flash('success_message','Product is added successfully');
+            Session::flash('success_message',$message);
             return redirect('admin/products');
 
         }
@@ -190,6 +196,50 @@ class ProductsController extends Controller
        $categories = Section::with('categories')->get();
        $categories = json_decode(json_encode($categories),true);
 
-        return view('admin.products.add_edit_product',compact('title','categories','fabricArray','sleeveArray','PatternArray','fitArray','occasionArray'));
+        return view('admin.products.add_edit_product',compact('title','productdata','categories',
+        'fabricArray','sleeveArray','PatternArray','fitArray','occasionArray'));
     }
+
+
+    public function deleteProductImage($id) {
+        $productImage = Product::select('main_image')->where('id',$id)->first();
+        $small_image_path = 'images/product_images/small/';
+        $medium_image_path = 'images/product_images/medium/';
+        $large_image_path = 'images/product_images/large/';
+
+        //delete small Product image from folder
+        if(file_exists($small_image_path.$productImage->main_image)) {
+            unlink($small_image_path.$productImage->main_image);
+        }
+
+        //delete medium Product image from folder
+        if(file_exists($medium_image_path.$productImage->main_image)) {
+            unlink($medium_image_path.$productImage->main_image);
+        }
+
+        //delete large Product image from folder
+        if(file_exists($large_image_path.$productImage->main_image)) {
+            unlink($large_image_path.$productImage->main_image);
+        }
+
+        Product::where('id',$id)->update(['main_image'=>'']);
+        $message = "Product Image has been deleted successfully!";
+        return redirect()->back()->with('success_message',$message);
+    }
+
+
+    public function deleteProductVideo($id) {
+        $productVideo = Product::select('product_video')->where('id',$id)->first();
+        $product_video_path = 'videos/product_videos/';
+        //delete category from folder
+        if(file_exists($product_video_path.$productVideo->product_video)) {
+            unlink($product_video_path.$productVideo->product_video);
+        }
+
+        Product::where('id',$id)->update(['product_video'=>'']);
+        $message = "Product Video has been deleted successfully!";
+        return redirect()->back()->with('success_message',$message);
+    }
+
+
 }

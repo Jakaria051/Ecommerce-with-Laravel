@@ -13,7 +13,7 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('admins')->delete();
+        DB::table('admins')->truncate();
         $adminsRecords = [
             [
                 'id'=>1,'name'=>'admin','type'=>'admin','mobile'=>'01621417585',
