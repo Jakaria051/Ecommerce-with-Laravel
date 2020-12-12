@@ -21,7 +21,7 @@ class CreateProductsAttributesTable extends Migration
             $table->string('size');
             $table->float('price');
             $table->integer('stock');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

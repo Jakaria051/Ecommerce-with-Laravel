@@ -147,5 +147,31 @@ $(document).ready(function(){
 
 
 
+    //Add remove product attrivute field
+        let maxField = 10;
+        let addButton = $('.add_button');
+        let wrapper = $('.field_wrapper');
+        let fieldHTML = '<div style="margin-top: 10px; margin-left:2px;"><input  type="text" name="size[]"  placeholder="Size" style="width: 100px;" required="">&nbsp;<input type="text" name="sku[]" placeholder="SKU" style="width: 100px;" required="">&nbsp;<input type="number" name="price[]"  placeholder="Price" style="width: 100px;" required="">&nbsp;<input  type="number" name="stock[]" placeholder="Stock" style="width: 100px;" required=""><a href="javascript:void(0);" class="remove_button">Remove</a></div>';
+        var x = 1;
+        //once add button is clicked
+        $(addButton).click(function(){
+            if( x < maxField ) {
+                x++;
+                $(wrapper).append(fieldHTML);
+            }
+        });
+
+        //once remove button is clicked
+        $(wrapper).on('click','.remove_button',function(e){
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        });
+
+
+
+
+
+
 
 });
