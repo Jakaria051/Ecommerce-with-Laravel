@@ -16,6 +16,7 @@ class CreateProductsAttributesTable extends Migration
         Schema::create('products_attributes', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id');
+            
             $table->string('sku');
            // $table->string('color');
             $table->string('size');

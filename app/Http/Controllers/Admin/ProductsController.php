@@ -273,7 +273,7 @@ class ProductsController extends Controller
             $message = "Product attributes has been added successfully!";
             return redirect()->back()->with('success_message',$message);
         }
-        $productdata = Product::find($id);
+        $productdata = Product::select('id','product_name','product_code','product_color','main_image')->with('attributes')->find($id);
         $productdata = json_decode(json_encode($productdata),true);
         $title = "Product Attributes";
         return view('admin.products.add_attributes',compact('productdata','title'));
