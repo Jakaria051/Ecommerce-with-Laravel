@@ -266,6 +266,7 @@ class ProductsController extends Controller
                     $attribute->size = $data['size'][$key];
                     $attribute->price = $data['price'][$key];
                     $attribute->stock = $data['stock'][$key];
+                    $attribute->status = 1;
                     $attribute->save();
                 }
             }
@@ -278,6 +279,41 @@ class ProductsController extends Controller
         $title = "Product Attributes";
         return view('admin.products.add_attributes',compact('productdata','title'));
     }
+
+    public function editAttributes(Request $request,$id) {
+        if($request->isMethod('post')) {
+       $data = $request->all();
+         foreach($data['attrId'] as $key => $attr) {
+             if(!empty($attr)) {
+                 ProductsAttribute::where(['id'=>$data['attrId'][$key]])
+                        ->update(['price'=>$data['price'][$key],'stock'=>$data['stock'][$key]]);
+             }
+         }
+         $message = "Product attributes has been updated successfully!";
+         return redirect()->back()->with('success_message',$message);
+        }
+    }
+
+    public function updateAttributeStatus(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+           // echo "<pre>"; print_r($data); die;
+           if($data['status']=="Active"){
+               $status = 0;
+           }else{
+               $status = 1;
+           }
+           ProductsAttribute::where('id',$data['attribute_id'])->update(['status'=>$status]);
+           return response()->json(['status'=>$status,'attribute_id'=>$data['attribute_id']]);
+        }
+    }
+
+    public function deleteAttribute($id) {
+        ProductsAttribute::where('id',$id)->delete();
+        $message = "Product attribute has been deleted successfully!";
+        return redirect()->back()->with('success_message',$message);
+    }
+
 
 
 }

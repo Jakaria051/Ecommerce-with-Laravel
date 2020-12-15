@@ -55,7 +55,7 @@
 
 
         <!-- SELECT2 EXAMPLE -->
-        <form action="{{ url('admin/add-attributes',$productdata['id']) }}" name="attributeForm" id="attributeForm" method="post" enctype="multipart/form-data">
+        <form action="{{ url('admin/add-attributes',$productdata['id']) }}" name="addAttributeForm" id="addAttributeForm" method="post" enctype="multipart/form-data">
          @csrf
         <div class="card card-default">
           <div class="card-header">
@@ -121,14 +121,15 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Add Attributes</button>
           </div>
         </div>
        </form>
         <!-- /.card -->
 
         {{-- display data --}}
-
+     <form name="editAttributesForm" id="editAttributesForm" method="post" action="{{ url('admin/edit-attributes',$productdata['id']) }}">
+        @csrf
         <div class="card">
             <div class="card-header">
               <h3 class="card-title">Added Products Attributes</h3>
@@ -148,14 +149,35 @@
                 </thead>
                 <tbody>
               @foreach ($productdata['attributes'] as $attribute)
-
+              <input style="display: none;" type="text" name="attrId[]" value="{{ $attribute['id'] }}">
                 <tr>
                   <td>{{ $attribute['id'] }}</td>
                   <td>{{ $attribute['size'] }}</td>
                   <td>{{ $attribute['sku'] }}</td>
-                  <td>{{ $attribute['price'] }}</td>
-                  <td>{{ $attribute['stock'] }}</td>
-                  <td></td>
+                  <td>
+                      <input type="number" name="price[]" value="{{ $attribute['price'] }}" required="">
+                  </td>
+                  <td>
+                    <input type="number" name="stock[]" value="{{ $attribute['stock'] }}" required="">
+                 </td>
+                  <td>
+
+                       @if ($attribute['status'] == 1)
+                       <a class="updateAttributeStatus" id="attribute-{{ $attribute['id'] }}"
+                         attribute_id="{{ $attribute['id'] }}" href="javascript:void(0)">Active</a>
+                     @else
+                     <a class="updateAttributeStatus" id="attribute-{{ $attribute['id'] }}"
+                         attribute_id="{{ $attribute['id'] }}" href="javascript:void(0)">Inactive</a>
+                     @endif
+
+                     &nbsp;&nbsp;
+                     <a title="Delete Attribute" href="javascript:void(0)" class="confirmDelete" record="attribute" recordId="{{ $attribute['id'] }}"
+                          @php /* href="{{ url('admin/delete-attribute/'.$attribute['id']) }}" */ @endphp ><i class="fas fa-trash"></i></a>
+
+
+
+
+                    </td>
 
                 </tr>
                 @endforeach
@@ -163,8 +185,15 @@
 
               </table>
             </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Update Attributes</button>
+            </div>
             <!-- /.card-body -->
           </div>
+
+        </form>
+          {{-- display data --}}
+
           <!-- /.card -->
 
         <!-- /.row -->

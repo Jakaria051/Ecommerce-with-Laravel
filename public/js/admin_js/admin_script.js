@@ -113,6 +113,36 @@ $(document).ready(function(){
             error:function(resp){
                 alert(resp);
             }
+        })
+
+    });
+
+
+    //   $(".updateAttributeStatus").click(function(){
+    //     alert("click");
+    // });
+
+
+     //update Product attribute status
+     $(".updateAttributeStatus").click(function(){
+        let status = $(this).text();
+        let attribute_id = $(this).attr("attribute_id");
+        $.ajax({
+            type:'post',
+            url:'/admin/update-attribute-status',
+            data:{status:status,attribute_id:attribute_id},
+            success:function(resp){
+                if(resp['status']==0)
+                {
+                   $("#attribute-"+attribute_id).html("<a class='updateAttributeStatus' href='javascript:void(0)'>Inactive</a>");
+                }else if(resp['status']==1){
+                   $("#attribute-"+attribute_id).html("<a class='updateAttributeStatus' href='javascript:void(0)'>Active</a>");
+
+                }
+            },
+            error:function(resp){
+                alert(resp);
+            }
         });
 
     });
