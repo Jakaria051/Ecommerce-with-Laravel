@@ -143,7 +143,7 @@ $(document).ready(function(){
             error:function(resp){
                 alert(resp);
             }
-        });
+        })
 
     });
 
@@ -175,6 +175,30 @@ $(document).ready(function(){
           });
     });
 
+        //update Product Image status
+        $(".updateImageStatus").click(function(){
+         let status = $(this).text();
+         let image_id = $(this).attr("image_id");
+
+         $.ajax({
+            type:'post',
+            url:'/admin/update-image-status',
+            data:{status:status,image_id:image_id},
+            success:function(resp){
+                if(resp['status']==0)
+                {
+                    $("#image-"+image_id).html("<a class='updateImageStatus' href='javascript:void(0)'>Inactive</a>");
+                }else if(resp['status']==1){
+                    $("#image-"+image_id).html("<a class='updateImageStatus' href='javascript:void(0)'>Active</a>");
+
+                }
+            },
+            error:function(resp){
+                alert(resp);
+            }
+         })
+
+      });
 
 
     //Add remove product attrivute field
@@ -197,6 +221,9 @@ $(document).ready(function(){
             $(this).parent('div').remove();
             x--;
         });
+
+        //
+
 
 
 

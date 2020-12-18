@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Product;
 use App\Http\Controllers\Controller;
 use App\ProductsAttribute;
+use App\ProductsImage;
 use App\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -139,6 +140,7 @@ class ProductsController extends Controller
                     Image::make($image_tmp)->save($large_image_path); //w-1040 H-1200
                     Image::make($image_tmp)->resize(520,600)->save($medium_image_path);
                     Image::make($image_tmp)->resize(260,300)->save($small_image_path);
+
                     $product->main_image = $imageName;
 
                 }
@@ -318,7 +320,29 @@ class ProductsController extends Controller
         if($request->isMethod('post')){
             if($request->hasFile('images')){
                 $images = $request->file('images');
-                echo "<pre>"; print_r($images); die;
+                foreach($images as $key => $image)
+                {
+                    $productImage = new ProductsImage;
+                    $image_tmp = Image::make($image); // temp image as $image_tmp
+                   // echo $originalName = $image->getClientOriginalName(); die;
+                    $extension = $image->getClientOriginalExtension();
+                    $imageName = rand(111,999999).time().".".$extension;
+
+                    $large_image_path = 'images/product_images/large/'.$imageName;
+                    $medium_image_path = 'images/product_images/medium/'.$imageName;
+                    $small_image_path = 'images/product_images/small/'.$imageName;
+                    Image::make($image_tmp)->save($large_image_path); //w-1040 H-1200
+                    Image::make($image_tmp)->resize(520,600)->save($medium_image_path);
+                    Image::make($image_tmp)->resize(260,300)->save($small_image_path);
+
+                    $productImage->image = $imageName;
+                    $productImage->product_id = $id;
+                    $productImage->status = 1;
+                    $productImage->save();
+
+                }
+                $message = "Product images has been added successfully!";
+                return redirect()->back()->with('success_message',$message);
             }
 
         }
@@ -326,6 +350,49 @@ class ProductsController extends Controller
          $productdata = json_decode(json_encode($productdata),true);
        $title = "Product Images";
        return view('admin.products.add_images',compact('productdata','title'));
+    }
+
+    public function updateImageStatus(Request $request)
+    {
+        if($request->ajax()){
+            $data = $request->all();
+           // echo "<pre>"; print_r($data); die;
+           if($data['status']=="Active"){
+               $status = 0;
+           }else{
+               $status = 1;
+           }
+           ProductsImage::where('id',$data['image_id'])->update(['status'=>$status]);
+           return response()->json(['status'=>$status,'image_id'=>$data['image_id']]);
+        }
+    }
+
+    public function deleteImage($id)
+    {
+        $productImage = ProductsImage::select('image')->where('id',$id)->first();
+        $small_image_path = 'images/product_images/small/';
+        $medium_image_path = 'images/product_images/medium/';
+        $large_image_path = 'images/product_images/large/';
+
+        //delete small Product image from folder
+        if(file_exists($small_image_path.$productImage->image)) {
+            unlink($small_image_path.$productImage->image);
+        }
+
+        //delete medium Product image from folder
+        if(file_exists($medium_image_path.$productImage->image)) {
+            unlink($medium_image_path.$productImage->image);
+        }
+
+        //delete large Product image from folder
+        if(file_exists($large_image_path.$productImage->image)) {
+            unlink($large_image_path.$productImage->image);
+        }
+
+        ProductsImage::where('id',$id)->delete();
+        $message = "Product Image has been deleted successfully!";
+        return redirect()->back()->with('success_message',$message);
+
     }
 
 

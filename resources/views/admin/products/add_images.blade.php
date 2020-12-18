@@ -149,10 +149,10 @@
                   <td>
 
                        @if ($image['status'] == 1)
-                       <a class="updateImagesStatus" id="image-{{ $image['id'] }}"
+                       <a class="updateImageStatus" id="image-{{ $image['id'] }}"
                          image_id="{{ $image['id'] }}" href="javascript:void(0)">Active</a>
                      @else
-                     <a class="updateImagesStatus" id="image-{{ $image['id'] }}"
+                     <a class="updateImageStatus" id="image-{{ $image['id'] }}"
                          image_id="{{ $image['id'] }}" href="javascript:void(0)">Inactive</a>
                      @endif
 
