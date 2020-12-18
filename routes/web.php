@@ -68,6 +68,9 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::get('delete-attribute/{id}','ProductsController@deleteAttribute');
 
 
+        //Images
+        Route::match(['get','post'],'add-images/{id}','ProductsController@addImages');
+
 
 
     });

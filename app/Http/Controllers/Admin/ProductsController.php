@@ -314,6 +314,20 @@ class ProductsController extends Controller
         return redirect()->back()->with('success_message',$message);
     }
 
+    public function addImages(Request $request,$id){
+        if($request->isMethod('post')){
+            if($request->hasFile('images')){
+                $images = $request->file('images');
+                echo "<pre>"; print_r($images); die;
+            }
+
+        }
+        $productdata = Product::with('images')->select('id','product_name','product_code','product_color','main_image')->find($id);
+         $productdata = json_decode(json_encode($productdata),true);
+       $title = "Product Images";
+       return view('admin.products.add_images',compact('productdata','title'));
+    }
+
 
 
 }

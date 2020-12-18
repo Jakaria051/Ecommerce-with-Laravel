@@ -35,7 +35,7 @@ class CreateProductsTable extends Migration
             $table->string('meta_title');
             $table->string('meta_description');
             $table->string('meta_keywords');
-            $table->enum('is_featured',['No','Yes']);
+            $table->enum('is_featured',['No','Yes'])->default('No');
             $table->tinyInteger('status');
             $table->timestamps();
         });
