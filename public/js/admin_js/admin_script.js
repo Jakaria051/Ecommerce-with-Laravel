@@ -48,6 +48,30 @@ $(document).ready(function(){
          });
      });
 
+      //BrandsStatus
+      $(".updateBrandStatus").click(function(){
+        var status = $(this).children("i").attr("status");
+      //  alert(status); return false;
+        var brand_id = $(this).attr("brand_id");
+        $.ajax({
+            type:'post',
+            url:'/admin/update-brand-status',
+            data:{status:status,brand_id:brand_id},
+            success:function(resp){
+                if(resp['status']==0)
+                {
+                   $("#brand-"+brand_id).html("<i class='fas fa-toggle-off' status='Inactive'></i>");
+                }else if(resp['status']==1){
+                   $("#brand-"+brand_id).html("<i class='fas fa-toggle-on' status='Active'></i>");
+
+                }
+            },
+            error:function(resp){
+                alert(resp);
+            }
+        });
+    });
+
 
      //update categories
 

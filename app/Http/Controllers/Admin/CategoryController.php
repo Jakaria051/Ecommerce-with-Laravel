@@ -165,7 +165,7 @@ class CategoryController extends Controller
 
     public function deleteCategory($id){
         Category::where('id',$id)->delete();
-        $message = "Category has been delted successfully!";
+        $message = "Category has been deleted successfully!";
         return redirect()->back()->with('success_message',$message);
     }
 }

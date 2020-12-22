@@ -6,11 +6,12 @@ use App\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Http\Request;
-use Session;
+//use Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Image;
-
+use Illuminate\Support\Facades\Session;
+//use Image;
+use Intervention\Image\Facades\Image;
 
 
 class AdminController extends Controller
