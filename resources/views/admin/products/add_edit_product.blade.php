@@ -83,6 +83,25 @@
                          @endforeach
                     </select>
                   </div>
+
+                <div class="form-group">
+                    <label>Select Brand</label>
+                    <select name="brand_id" id="brand_id" class="form-control select2" style="width: 100%;">
+                        <option value="">Select</option>
+                    @foreach ($brands as $brand)
+                     <option value="{{ $brand['id'] }}" @if(!empty(@old('brand_id')) && $brand['id'] == @old('brand_id')) selected=""
+                     @elseif(!empty($productdata['brand_id']) &&  $productdata['brand_id'] == $brand['id']) selected=""
+                     @endif>{{ $brand['name'] }}</option>
+                    @endforeach
+                    </select>
+                </div>
+
+
+              </div>
+
+
+
+              <div class="col-md-6">
                 <div class="form-group">
                     <label for="product_name">Product Name</label>
                     <input type="text" class="form-control" name="product_name" id="product_name" placeholder="Enter Product name"
@@ -92,11 +111,7 @@
                    value="{{ old('product_name') }}"
                     @endif>
                   </div>
-              </div>
 
-
-
-              <div class="col-md-6">
                 <div class="form-group">
                     <label for="product_code">Product Code</label>
                     <input type="text" class="form-control" name="product_code" id="product_code" placeholder="Enter Product Code"
@@ -106,7 +121,12 @@
                    value="{{ old('product_code') }}"
                     @endif>
                   </div>
-                  <div class="form-group">
+
+              </div>
+
+
+              <div class="col-md-6">
+                <div class="form-group">
                     <label for="product_color">Product Color</label>
                     <input type="text" class="form-control" name="product_color" id="product_color" placeholder="Enter Product Color"
                     @if (!empty($productdata['product_color']))
@@ -115,10 +135,8 @@
                    value="{{ old('product_color') }}"
                     @endif>
                   </div>
-              </div>
 
 
-              <div class="col-md-6">
                 <div class="form-group">
                     <label for="product_price">Product Price</label>
                     <input type="text" class="form-control" name="product_price" id="product_price" placeholder="Enter Product Price"
@@ -128,7 +146,14 @@
                    value="{{ old('product_price') }}"
                     @endif>
                   </div>
-                  <div class="form-group">
+
+              </div>
+
+
+
+              <!-- /.col -->
+              <div class="col-md-6">
+                <div class="form-group">
                     <label for="product_discount">Product Discount (%)</label>
                     <input type="text" class="form-control" name="product_discount" id="product_discount" placeholder="Enter Product Discount"
                     @if (!empty($productdata['product_discount']))
@@ -137,12 +162,8 @@
                    value="{{ old('product_discount') }}"
                     @endif>
                   </div>
-              </div>
 
 
-
-              <!-- /.col -->
-              <div class="col-md-6">
                 <div class="form-group">
                     <label for="product_weight">Product Weight</label>
                     <input type="text" class="form-control" name="product_weight" id="product_weight" placeholder="Enter Product Weight"
@@ -152,6 +173,15 @@
                    value="{{ old('product_weight') }}"
                     @endif>
                   </div>
+
+              </div>
+
+            </div>
+            <!-- /.end row -->
+
+            <div class="row">
+              <div class="col-12 col-sm-6">
+
                 <div class="form-group">
                     <label for="main_image">Product Main Image</label>
                     <div class="input-group">
@@ -172,16 +202,8 @@
                     <a class="confirmDelete" href="javascript:void(0)" record="product-image" recordId="{{ $productdata['id'] }}" @php /*href="{{ url('admin/delete-category-image/'.$categorydata['id']) }}" */ @endphp >Delete Image</a>
                     </div>
                     @endif
-
-
                   </div>
-              </div>
 
-            </div>
-            <!-- /.end row -->
-
-            <div class="row">
-              <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="product_video">Product Video</label>
                     <div class="input-group">
@@ -204,7 +226,15 @@
                     </div>
                     @endif
                   </div>
-                  <div class="form-group">
+
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+
+
+              <div class="col-12 col-sm-6">
+
+                <div class="form-group">
                     <label for="description">Product Description</label>
                     <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter ...">
                         @if (!empty($productdata['description']))
@@ -214,12 +244,8 @@
                         @endif
                     </textarea>
                   </div>
-                <!-- /.form-group -->
-              </div>
-              <!-- /.col -->
 
 
-              <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="wash_care">Wash Care</label>
                     <textarea class="form-control" id="wash_care" name="wash_care" rows="3" placeholder="Enter ...">
@@ -231,7 +257,11 @@
                     </textarea>
                   </div>
 
-                  <div class="form-group">
+
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
                     <label>Select Febric</label>
                     <select name="fabric" id="fabric" class="form-control select2" style="width: 100%;">
                         <option value="">Select</option>
@@ -242,9 +272,8 @@
                     @endforeach
                     </select>
                   </div>
-              </div>
-              <!-- /.col -->
-              <div class="col-12 col-sm-6">
+
+
                 <div class="form-group">
                     <label>Select Sleeve</label>
                     <select name="sleeve" id="sleeve" class="form-control select2" style="width: 100%;">
@@ -255,8 +284,12 @@
                      @endif>{{ $sleeve }}</option>
                     @endforeach
                     </select>
-                  </div>
-                  <div class="form-group">
+                </div>
+
+             </div>
+
+             <div class="col-12 col-sm-6">
+                <div class="form-group">
                     <label>Select Pattern</label>
                     <select name="pattern" id="pattern" class="form-control select2" style="width: 100%;">
                         <option value="">Select</option>
@@ -267,9 +300,7 @@
                     @endforeach
                     </select>
                   </div>
-             </div>
 
-             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label>Select Fit</label>
                     <select name="fit" id="fit" class="form-control select2" style="width: 100%;">
@@ -281,22 +312,24 @@
                     @endforeach
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label>Select Occasion</label>
-                    <select name="occasion" id="occasion" class="form-control select2" style="width: 100%;">
-                        <option value="">Select</option>
-                    @foreach ($occasionArray as $occasion)
-                     <option value="{{ $occasion }}" @if(!empty(@old('occasion')) && $occasion == @old('occasion')) selected=""
-                     @elseif(!empty($productdata['occasion']) &&  $productdata['occasion'] == $occasion) selected=""
-                     @endif>{{ $occasion }}</option>
-                    @endforeach
-                    </select>
-                  </div>
+
              </div>
 
 
                  <!-- /.col -->
                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label>Select Occasion</label>
+                        <select name="occasion" id="occasion" class="form-control select2" style="width: 100%;">
+                            <option value="">Select</option>
+                        @foreach ($occasionArray as $occasion)
+                         <option value="{{ $occasion }}" @if(!empty(@old('occasion')) && $occasion == @old('occasion')) selected=""
+                         @elseif(!empty($productdata['occasion']) &&  $productdata['occasion'] == $occasion) selected=""
+                         @endif>{{ $occasion }}</option>
+                        @endforeach
+                        </select>
+                      </div>
+
                     <div class="form-group">
                         <label for="meta_title">Meta Title</label>
                         <textarea class="form-control" name="meta_title" id="meta_title" rows="3" placeholder="Enter ...">
@@ -306,6 +339,15 @@
                       {{ old('meta_title') }}
                       @endif</textarea>
                       </div>
+
+
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+
+                     <!-- /.col -->
+                 <div class="col-12 col-sm-6">
+
                     <div class="form-group">
                         <label for="meta_description">Meta Description</label>
                         <textarea class="form-control" id="meta_description" name="meta_description" rows="3" placeholder="Enter ..."
@@ -316,14 +358,8 @@
                       {{ old('meta_description') }}
                      @endif
                     </textarea>
-                      </div>
+                    </div>
 
-                    <!-- /.form-group -->
-                  </div>
-                  <!-- /.col -->
-
-                     <!-- /.col -->
-                 <div class="col-12 col-sm-6">
                       <div class="form-group">
                         <label for="meta_keywords">Meta Keywords</label>
                         <textarea class="form-control" id="meta_keywords" name="meta_keywords" rows="3" placeholder="Enter ..."
@@ -335,14 +371,18 @@
                        @endif
                     </textarea>
                       </div>
-                      <div class="form-group">
+
+                  </div>
+                  <!-- /.col -->
+
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
                         <label for="is_featured">Is Featured</label>
                         <input type="checkbox" name="is_featured" id="is_featured"  value="Yes"
                         @if(!empty($productdata['is_featured']) &&  $productdata['is_featured'] == "Yes") checked="" @endif
                         >
                       </div>
                   </div>
-                  <!-- /.col -->
             </div>
             <!-- /.row -->
           </div>

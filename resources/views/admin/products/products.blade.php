@@ -81,10 +81,10 @@
                     <td>
                         @if ($product->status == 1)
                           <a class="updateProductStatus" id="product-{{ $product->id }}"
-                            product_id="{{ $product->id }}" href="javascript:void(0)">Active</a>
+                            product_id="{{ $product->id }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
                         @else
                         <a class="updateProductStatus" id="product-{{ $product->id }}"
-                            product_id="{{ $product->id }}" href="javascript:void(0)">Inactive</a>
+                            product_id="{{ $product->id }}" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                         @endif
                     </td>
 

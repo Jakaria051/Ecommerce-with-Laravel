@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Brand;
 use App\Product;
 use App\Http\Controllers\Controller;
 use App\ProductsAttribute;
@@ -59,16 +60,18 @@ class ProductsController extends Controller
         }
 
         if($request->isMethod('post')) {
-              $data = $request->all();
+          $data = $request->all();
 
              $rules = [
                 'category_id' => 'required',
+                'brand_id' => 'required',
                 'product_name' => 'required|regex:/^[\pL\s\-]+$/u',
                 'product_code' => 'required|regex:/^[\w-]*$/',
                 'product_price' => 'required',
                 'product_color' => 'required|regex:/^[\pL\s\-]+$/u',
             ];
             $custom_message = [
+                'brand_id.required' => 'Brand is required',
                 'category_id.required' => 'Product is required',
                 'product_name.required' => 'Product name is required',
                 'product_name.regex' => 'Valid Product name is required',
@@ -82,8 +85,6 @@ class ProductsController extends Controller
 
             if(empty($data['is_featured'])) {
                 $is_featured = "No";
-            }else{
-                $is_featured = "Yes";
             }
 
             if(empty($data['product_discount'])) {
@@ -93,38 +94,6 @@ class ProductsController extends Controller
                 $data['product_weight'] = 0.00;
             }
 
-            if(empty($data['description'])) {
-                $data['description'] = "";
-            }
-
-            if(empty($data['wash_care'])) {
-                $data['wash_care'] = "";
-            }
-
-            if(empty($data['fabric'])) {
-                $data['fabric'] = "";
-            }
-            if(empty($data['pattern'])) {
-                $data['pattern'] = "";
-            }
-            if(empty($data['sleeve'])) {
-                $data['sleeve'] = "";
-            }
-            if(empty($data['fit'])) {
-                $data['fit'] = "";
-            }
-            if(empty($data['occasion'])) {
-                $data['occasion'] = "";
-            }
-            if(empty($data['meta_title'])) {
-                $data['meta_title'] = "";
-            }
-            if(empty($data['meta_description'])) {
-                $data['meta_description'] = "";
-            }
-            if(empty($data['meta_keywords'])) {
-                $data['meta_keywords'] = "";
-            }
 
             //upload product image
             if($request->hasFile('main_image')) {
@@ -162,6 +131,7 @@ class ProductsController extends Controller
 
             $categoryDetails = Product::findOrFail($data['category_id']);
             $product->section_id = $categoryDetails['section_id'];
+            $product->brand_id = $data['brand_id'];
             $product->category_id = $data['category_id'];
             $product->product_name = $data['product_name'];
             $product->product_code = $data['product_code'];
@@ -183,8 +153,9 @@ class ProductsController extends Controller
             $product->status = 1;
             $product->save();
 
-            Session::flash('success_message',$message);
-            return redirect('admin/products');
+            // Session::flash('success_message',$message);
+            // return redirect('admin/products');
+            return redirect()->back()->with('success_message',$message);
 
         }
 
@@ -199,8 +170,12 @@ class ProductsController extends Controller
        $categories = Section::with('categories')->get();
        $categories = json_decode(json_encode($categories),true);
 
+       // Get all the brands
+       $brands = Brand::where('status',1)->get();
+       $brands = json_decode(json_encode($brands),true);
+
         return view('admin.products.add_edit_product',compact('title','productdata','categories',
-        'fabricArray','sleeveArray','PatternArray','fitArray','occasionArray'));
+        'fabricArray','sleeveArray','PatternArray','fitArray','occasionArray','brands'));
     }
 
 
