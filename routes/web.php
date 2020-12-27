@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Front\IndexController;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
@@ -80,9 +81,10 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::post('update-image-status','ProductsController@updateImageStatus');
         Route::get('delete-image/{id}','ProductsController@deleteImage');
 
-
-
     });
-
-
 });
+
+//Front
+    Route::namespace('Front')->group(function(){
+        Route::get('/','IndexController@index');
+    });
