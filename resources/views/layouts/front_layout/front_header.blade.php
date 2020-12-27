@@ -1,3 +1,9 @@
+@php
+   use App\Section;
+    $sections= Section::sections();
+  //  echo "<pre>"; print_r($sections); die;
+@endphp
+
    <!-- header start -->
    <header>
     <div class="mobile-fix-option"></div>
@@ -54,11 +60,30 @@
                                     </li>
                                      <li>
                                         <a href="index.html">Home</a></li>
-                                    <li>
-                                    <li>
+
+
+                                        @foreach ($sections as $section)
+
+                                        @if (count($section['categories']) > 0)
+                                        <li class="dropdown">
+                                        <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ data_get($section,'name') }}<b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                @foreach (data_get($section,'categories') as $category)
+                                                <li class="divider"></li>
+                                                <li class="nav-header"><a href="">{{ data_get($category,'category_name') }}</a></li>
+                                                    @foreach (data_get($category,'subcategories') as $subcategory)
+                                                    <li><a href="">&nbsp;&raquo;&nbsp;{{ data_get($subcategory,'category_name') }}</a></li>
+                                                    @endforeach
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                        @endif
+
+                                    @endforeach
+                                    {{-- <li>
                                         <a href="men.html">Men</a></li>
                                     <li>
-                                        <a href="women.html">Women</a></li>
+                                        <a href="women.html">Women</a></li> --}}
                                     <li>
                                         <a href="miscelleneous.html">Miscellaneous</a>
                                         </li>
