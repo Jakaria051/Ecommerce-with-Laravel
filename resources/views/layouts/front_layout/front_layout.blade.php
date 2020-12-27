@@ -27,7 +27,7 @@
     <!-- Themify icon -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/front_css/themify-icons.css') }}">
   <!-- Price range icon -->
-  
+
     <link rel="stylesheet" type="text/css" href="{{ url('css/front_css/price-range.css') }}">
     <!-- Bootstrap css -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/front_css/bootstrap.css') }}">
@@ -96,7 +96,6 @@ and shearling garments</h4>
 
 
     <!-- Paragraph-->
-
     <!-- Paragraph end -->
 
 
