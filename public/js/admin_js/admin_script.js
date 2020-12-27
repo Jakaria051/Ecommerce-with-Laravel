@@ -22,7 +22,7 @@ $(document).ready(function(){
      });
 
      //SectionsStatus
-     $(".updateSectionStatus").click(function(){
+     $(document).on("click",".updateSectionStatus",function(){
         var status = $(this).children("i").attr("status");
        // var status = $(this).text();
          var section_id = $(this).attr("section_id");
@@ -50,7 +50,7 @@ $(document).ready(function(){
      });
 
       //BrandsStatus
-      $(".updateBrandStatus").click(function(){
+      $(document).on("click",".updateBrandStatus",function(){
         var status = $(this).children("i").attr("status");
       //  alert(status); return false;
         var brand_id = $(this).attr("brand_id");
@@ -75,8 +75,7 @@ $(document).ready(function(){
 
 
      //update categories
-
-     $(".updateCategoryStatus").click(function(){
+     $(document).on("click",".updateCategoryStatus",function(){
         var status = $(this).children("i").attr("status");
         var category_id = $(this).attr("category_id");
        // alert(status);
@@ -119,7 +118,7 @@ $(document).ready(function(){
 
     ///update product status
 
-    $(".updateProductStatus").click(function(){
+    $(document).on("click",".updateProductStatus",function(){
         var status = $(this).children("i").attr("status");
         let product_id = $(this).attr("product_id");
         $.ajax({
@@ -149,7 +148,7 @@ $(document).ready(function(){
 
 
      //update Product attribute status
-     $(".updateAttributeStatus").click(function(){
+     $(document).on("click",".updateAttributeStatus",function(){
         let status = $(this).text();
         let attribute_id = $(this).attr("attribute_id");
         $.ajax({
@@ -182,7 +181,7 @@ $(document).ready(function(){
     // });
 
     ///Confirm delete of record by SweetAlert2
-    $('.confirmDelete').click(function(){
+    $(document).on("click",".confirmDelete",function(){
         let record = $(this).attr("record");
         let recordId = $(this).attr("recordId");
         Swal.fire({
@@ -201,7 +200,8 @@ $(document).ready(function(){
     });
 
         //update Product Image status
-        $(".updateImageStatus").click(function(){
+        $(document).on("click",".updateImageStatus",function(){
+        // $(".updateImageStatus").click(function(){
          let status = $(this).text();
          let image_id = $(this).attr("image_id");
 

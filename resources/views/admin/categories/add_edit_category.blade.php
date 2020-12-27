@@ -128,7 +128,7 @@
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="category_discount">Category Discount</label>
-                    <input type="text" class="form-control" id="category_discount" name="category_discount" placeholder="Enter Category name"
+                    <input type="number" class="form-control" id="category_discount" name="category_discount" placeholder="Enter Category name"
                     @if (!empty($categorydata['category_discount']))
                     value="{{ $categorydata['category_discount'] }}"
                     @else

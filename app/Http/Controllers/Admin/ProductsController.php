@@ -83,7 +83,9 @@ class ProductsController extends Controller
             ];
             $this->validate($request,$rules,$custom_message);
 
-            if(empty($data['is_featured'])) {
+            if(!empty($data['is_featured'])) {
+                $is_featured = $data['is_featured'];
+            }else {
                 $is_featured = "No";
             }
 
