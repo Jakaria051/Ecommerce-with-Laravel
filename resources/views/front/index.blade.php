@@ -14,75 +14,7 @@
             <div class="row">
                 <div class="col">
                     <div class="product-4 product-m no-arrow">
-                        <div class="product-box">
-                            <div class="img-wrapper">
-                                <div class="front">
-                                    <a href="product-page(no-sidebar).html"><img
-                                            src="{{ asset('images/front_images/jewellery/pro/1.png') }}"
-                                            class="img-fluid blur-up lazyload bg-img" alt=""></a>
-                                </div>
-                                <div class="cart-info cart-wrap">
-                                    <button data-toggle="modal" data-target="#addtocart" title="Add to cart"><i
-                                            class="ti-shopping-cart"></i></button>
-                                    <a href="javascript:void(0)" title="Add to Wishlist"><i class="ti-heart"
-                                            aria-hidden="true"></i></a>
-                                    <a href="#" data-toggle="modal" data-target="#quick-view" title="Quick View"><i
-                                            class="ti-search" aria-hidden="true"></i></a>
-                                    <a href="compare.html" title="Compare"><i class="ti-reload"
-                                            aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                            <div class="product-detail">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <a href="product-page(no-sidebar).html">
-                                    <h6>Slim Fit Cotton Shirt</h6>
-                                </a>
-                                <h4>$500.00</h4>
-                            </div>
-                        </div>
-                        <div class="product-box">
-                            <div class="img-wrapper">
-                                <div class="lable-block">
-                                    <span class="lable3">new</span>
-                                    <span class="lable4">on sale</span>
-                                </div>
-                                <!-- front image -->
-                                <div class="front">
-                                    <a href="product-page(no-sidebar).html"><img
-                                            src="{{ asset('images/front_images/jewellery/pro/2.png') }}"
-                                            class="img-fluid blur-up lazyload bg-img" alt=""></a>
-                                </div>
-                                <div class="cart-info cart-wrap">
-                                    <button data-toggle="modal" data-target="#addtocart" title="Add to cart"><i
-                                            class="ti-shopping-cart"></i></button>
-                                    <a href="javascript:void(0)" title="Add to Wishlist"><i class="ti-heart"
-                                            aria-hidden="true"></i></a>
-                                    <a href="#" data-toggle="modal" data-target="#quick-view" title="Quick View"><i
-                                            class="ti-search" aria-hidden="true"></i></a>
-                                    <a href="compare.html" title="Compare"><i class="ti-reload"
-                                            aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                            <div class="product-detail">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <a href="product-page(no-sidebar).html">
-                                    <h6>Slim Fit Cotton Shirt</h6>
-                                </a>
-                                <h4>$500.00 <del>$600.00</del></h4>
-                            </div>
-                        </div>
+                        @foreach ($featuredItems as $featuredItem)
                         <div class="product-box">
                             <div class="img-wrapper">
                                 <div class="lable-block">
@@ -90,9 +22,20 @@
                                     <span class="lable4">on sale</span>
                                 </div>
                                 <div class="front">
-                                    <a href="product-page(no-sidebar).html"><img
-                                            src="{{ asset('images/front_images/jewellery/pro/3.png') }}"
-                                            class="img-fluid blur-up lazyload bg-img" alt=""></a>
+                                    <a href="product-page(no-sidebar).html">
+                                        @php
+                                            $product_image_path = 'images/product_images/small/'.$featuredItem['main_image'];
+                                        @endphp
+                                        @if (!empty($featuredItem['main_image']) && file_exists($product_image_path))
+                                        <img
+                                        src="{{ asset('images/product_images/small/'.$featuredItem['main_image']) }}"
+                                        class="img-fluid blur-up lazyload bg-img" alt="">
+                                        @else
+                                        <img
+                                            src="{{ asset('images/product_images/small/no_image.png') }}"
+                                            class="img-fluid blur-up lazyload bg-img" alt="">
+                                        @endif
+                                        </a>
                                 </div>
                                 <div class="cart-info cart-wrap">
                                     <button data-toggle="modal" data-target="#addtocart" title="Add to cart"><i
@@ -114,80 +57,14 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <a href="product-page(no-sidebar).html">
-                                    <h6>Slim Fit Cotton Shirt</h6>
+                                    <h6>{{ data_get($featuredItem,'product_name') }}</h6>
                                 </a>
-                                <h4>$500.00</h4>
+                                <h4>${{ data_get($featuredItem,'product_price') }}</h4>
                             </div>
                         </div>
-                        <div class="product-box">
-                            <div class="img-wrapper">
-                                <div class="front">
-                                    <a href="product-page(no-sidebar).html"><img
-                                            src="{{ asset('images/front_images/jewellery/pro/4.png') }}"
-                                            class="img-fluid blur-up lazyload bg-img" alt=""></a>
-                                </div>
-                                <div class="cart-info cart-wrap">
-                                    <button data-toggle="modal" data-target="#addtocart" title="Add to cart"><i
-                                            class="ti-shopping-cart"></i></button>
-                                    <a href="javascript:void(0)" title="Add to Wishlist"><i class="ti-heart"
-                                            aria-hidden="true"></i></a>
-                                    <a href="#" data-toggle="modal" data-target="#quick-view" title="Quick View"><i
-                                            class="ti-search" aria-hidden="true"></i></a>
-                                    <a href="compare.html" title="Compare"><i class="ti-reload"
-                                            aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                            <div class="product-detail">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <a href="product-page(no-sidebar).html">
-                                    <h6>Slim Fit Cotton Shirt</h6>
-                                </a>
-                                <h4>$500.00</h4>
-                            </div>
-                        </div>
-                        <div class="product-box">
-                            <div class="img-wrapper">
-                                <div class="lable-block">
-                                    <span class="lable3">new</span>
-                                    <span class="lable4">on sale</span>
-                                </div>
-                                <div class="front">
-                                    <a href="product-page(no-sidebar).html"><img
-                                            src="{{ asset('images/front_images/jewellery/pro/5.png') }}"
-                                            class="img-fluid blur-up lazyload bg-img" alt=""></a>
-                                </div>
-                                <div class="cart-info cart-wrap">
-                                    <button data-toggle="modal" data-target="#addtocart" title="Add to cart"><i
-                                            class="ti-shopping-cart"></i></button>
-                                    <a href="javascript:void(0)" title="Add to Wishlist"><i class="ti-heart"
-                                            aria-hidden="true"></i></a>
-                                    <a href="#" data-toggle="modal" data-target="#quick-view" title="Quick View"><i
-                                            class="ti-search" aria-hidden="true"></i></a>
-                                    <a href="compare.html" title="Compare"><i class="ti-reload"
-                                            aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                            <div class="product-detail">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <a href="product-page(no-sidebar).html">
-                                    <h6>Slim Fit Cotton Shirt</h6>
-                                </a>
-                                <h4>$500.00</h4>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
+
                 </div>
             </div>
         </div>

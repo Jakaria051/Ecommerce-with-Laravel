@@ -139,7 +139,7 @@
 
                 <div class="form-group">
                     <label for="product_price">Product Price</label>
-                    <input type="text" class="form-control" name="product_price" id="product_price" placeholder="Enter Product Price"
+                    <input type="number" class="form-control" name="product_price" id="product_price" placeholder="Enter Product Price"
                     @if (!empty($productdata['product_price']))
                     value="{{ $productdata['product_price'] }}"
                     @else

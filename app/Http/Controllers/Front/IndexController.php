@@ -14,7 +14,7 @@ class IndexController extends Controller
 
         $featuredItemsCount = Product::where('is_featured','Yes')->count();
         $featuredItems = Product::where('is_featured','Yes')->get()->toArray();
-        $featuredItemsChunk = array_chunk($featuredItems,4);
-        return view('front.index',compact('page_name','featuredItemsChunk'));
+      //  $featuredItemsChunk = array_chunk($featuredItems,4);
+        return view('front.index',compact('page_name','featuredItems','featuredItemsCount'));
     }
 }
