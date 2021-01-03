@@ -117,7 +117,6 @@ $(document).ready(function(){
     });
 
     ///update product status
-
     $(document).on("click",".updateProductStatus",function(){
         var status = $(this).children("i").attr("status");
         let product_id = $(this).attr("product_id");
@@ -138,7 +137,29 @@ $(document).ready(function(){
                 alert(resp);
             }
         })
+    });
 
+     ///update banner status
+     $(document).on("click",".updateBannerStatus",function(){
+        var status = $(this).children("i").attr("status");
+        let banner_id = $(this).attr("banner_id");
+        $.ajax({
+            type:'post',
+            url:'/admin/update-banner-status',
+            data:{status:status,banner_id:banner_id},
+            success:function(resp){
+                if(resp['status']==0)
+                {
+                   $("#banner-"+banner_id).html("<i class='fas fa-toggle-off' status='Inactive'></i>");
+                }else if(resp['status']==1){
+                   $("#banner-"+banner_id).html("<i class='fas fa-toggle-on' status='Active'></i>");
+
+                }
+            },
+            error:function(resp){
+                alert(resp);
+            }
+        })
     });
 
 
@@ -168,7 +189,6 @@ $(document).ready(function(){
                 alert(resp);
             }
         })
-
     });
 
     ///Confirm delete of record by simple jquery

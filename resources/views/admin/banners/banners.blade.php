@@ -14,7 +14,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Brands</li>
+              <li class="breadcrumb-item active">Banners</li>
             </ol>
           </div>
         </div>
@@ -40,38 +40,47 @@
                 </div>
                 @endif
 
-                <h3 class="card-title">Brands</h3>
-                <a href="{{ url('admin/add-edit-brand') }}" style="max-width: 150px; float: right; display:inline-block;"  class="btn btn-block btn-info">Add Brand</a>
+                <h3 class="card-title">Banners</h3>
+                <a href="{{ url('admin/add-edit-banner') }}" style="max-width: 150px; float: right; display:inline-block;"  class="btn btn-block btn-info">Add Banner</a>
 
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="brands" class="table table-bordered table-striped">
+                <table id="banners" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Link</th>
+                    <th>Title</th>
+                    <th>Alt</th>
                     <th>Actions</th>
                   </tr>
                   </thead>
                   <tbody>
-                @foreach ($brands as $brand)
+                @foreach ($banners as $banner)
                   <tr>
-                    <td>{{ $brand->id }}</td>
-                  <td>{{ $brand->name }}</td>
+                    <td>{{ $banner['id'] }}</td>
+                   <td>
+                  <img style="width: 160px;" src="{{ asset('images/banner_images/'.$banner['image']) }}" alt="">
+                  </td>
+                   <td>{{ $banner['link'] }}</td>
+                   <td>{{ $banner['title'] }}</td>
+                   <td>{{ $banner['alt'] }}</td>
+
                     <td>
                         &nbsp;&nbsp;
-                        <a title="Edit Brand" href="{{ url('admin/add-edit-brand/'.$brand->id) }}"><i class="fas fa-edit"></i></a>
+                        <a title="Edit Banner" href="{{ url('admin/add-edit-banner/'.$banner['id']) }}"><i class="fas fa-edit"></i></a>
                         &nbsp;&nbsp;
-                        <a title="Delete Brand" href="javascript:void(0)" class="confirmDelete" record="brand" recordId="{{ $brand->id }}"
-                             @php /* href="{{ url('admin/delete-brand/'.$brand->id) }}" */ @endphp ><i class="fas fa-trash"></i></a>
+                        <a title="Delete Banner" href="javascript:void(0)" class="confirmDelete" record="banner" recordId="{{ $banner['id'] }}"
+                             @php /* href="{{ url('admin/delete-banner/'.$banner['id']) }}" */ @endphp ><i class="fas fa-trash"></i></a>
                              &nbsp;&nbsp;
-                             @if ($brand->status == 1)
-                          <a class="updateBrandStatus" id="brand-{{ $brand->id }}"
-                            brand_id="{{ $brand->id }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
+                             @if ($banner['status'] == 1)
+                          <a class="updateBannerStatus" id="banner-{{ $banner['id'] }}"
+                            banner_id="{{ $banner['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
                         @else
-                        <a class="updateBrandStatus" id="brand-{{ $brand->id }}"
-                            brand_id="{{ $brand->id }}" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                        <a class="updateBannerStatus" id="banner-{{ $banner['id'] }}"
+                            banner_id="{{ $banner['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                         @endif
 
                     </td>
