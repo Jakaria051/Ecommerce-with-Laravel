@@ -44,53 +44,7 @@
 <!-- header end -->
 
 {{-- slider --}}
-
-   @if (isset($page_name) && $page_name == "index")
-    <!-- Home slider -->
-    <section class="p-0 height-100">
-        <div class="slide-1 home-slider">
-            <div>
-                <div class="home text-center bg-position p-right">
-                    <img src="{{ asset('images/front_images/home-banner/1_1.png') }}" alt="" class="bg-img blur-up lazyload">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="slider-contain">
-                                    <div>
-                                        <h4 style="color:black;">luxurious sheepskin
-and shearling garments</h4>
-                                        <h1>Our collection</h1>
-                                        <a href="#" class="btn btn-solid">shop now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="home text-center ">
-                    <img src="{{ asset('images/front_images/home-banner/3_1.png') }}" alt="" class="bg-img blur-up lazyload">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="slider-contain">
-                                    <div>
-                                        <h4> Fine quality real sheepskin and shearling </h4>
-                                        <h1>Sale with Design</h1>
-                                        <a href="#" class="btn btn-solid">shop now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-</section>
-    <!-- Home slider end -->
-
-@endif
+@include('front.banners.home_page_banners')
 {{--end slider --}}
 
 
