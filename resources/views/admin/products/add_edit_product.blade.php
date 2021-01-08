@@ -193,7 +193,7 @@
                         <span class="input-group-text" id="">Upload</span>
                       </div>
                     </div>
-                    <div>Recommended Image Size:(1040px,Heght:1200px)</div>
+                    <div>Recommended Image Size:(1000px,Heght:1000px)</div>
 
                     @if (!empty($productdata['main_image']))
                     <div style="height: 100px;">

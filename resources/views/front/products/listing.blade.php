@@ -163,13 +163,17 @@
 
                                     </a>
                                     <div class="top-banner-content small-section">
-                                        <h4>{{ $categoryDetails['catDetails']['category_name'] }}</h4>
-                                        <h5>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                        </h5>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
-                                            it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release
-                                            of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                        <h4>{{ $categoryDetails['catDetails']['category_name'] }} ( {{ count($categoryProducts) }} )</h4>
+
+                                        <p>{{ $categoryDetails['catDetails']['description'] }}</p>
                                     </div>
+                                    {{-- breadcrumb --}}
+                                    <ul class="breadcrumb">
+                                        <li><a href="{{ url('/')}}">Home</a><span class="divider">/</span></li>
+                                        <li class="active">@php
+                                            echo $categoryDetails['breadcrumbs'];
+                                        @endphp</li>
+                                    </ul>
                                 </div>
                                 <div class="collection-product-wrapper">
                                     <div class="product-top-filter">
@@ -264,9 +268,9 @@
                                                         <a href="product-page(no-sidebar).html">
                                                             <h6>{{ data_get($product,'product_name') }}</h6>
                                                         </a>
-                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
-                                                            of type and scrambled it to make a type specimen book
-                                                        </p>
+                                                        <h6>
+                                                            {{ $product['brand']['name'] }}
+                                                        </h6>
                                                         <h4>${{ data_get($product,'product_price') }}</h4>
                                                         <ul class="color-variant">
                                                             <li class="bg-light0"></li>

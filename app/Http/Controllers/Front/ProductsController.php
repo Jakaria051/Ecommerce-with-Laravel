@@ -17,7 +17,7 @@ class ProductsController extends Controller
             //echo "Category exists"; die;
             $categoryDetails = Category::catDetails($url);
 
-            $categoryProducts = Product::whereIn('category_id',$categoryDetails['catIds'])
+            $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetails['catIds'])
             ->where('status',1)->get()->toArray();
             // echo "<pre>";
             // print_r($categoryDetails);
