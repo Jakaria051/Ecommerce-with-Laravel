@@ -70,9 +70,9 @@
                                             <ul class="dropdown-menu">
                                                 @foreach (data_get($section,'categories') as $category)
                                                 <li class="divider"></li>
-                                                <li class="nav-header"><a href="">{{ data_get($category,'category_name') }}</a></li>
+                                                <li class="nav-header"><a href="{{ data_get($category,'url') }}">{{ data_get($category,'category_name') }}</a></li>
                                                     @foreach (data_get($category,'subcategories') as $subcategory)
-                                                    <li><a href="">&nbsp;&raquo;&nbsp;{{ data_get($subcategory,'category_name') }}</a></li>
+                                                    <li><a href="{{ data_get($subcategory,'url') }}">&nbsp;&raquo;&nbsp;{{ data_get($subcategory,'category_name') }}</a></li>
                                                     @endforeach
                                                 @endforeach
                                             </ul>

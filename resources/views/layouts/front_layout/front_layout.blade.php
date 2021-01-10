@@ -211,7 +211,8 @@
     <!-- Theme js-->
     <script src="{{ url('js/front_js/script.js') }}"></script>
 
-
+    {{-- backend js --}}
+    <script src="{{ url('js/front_js/front_backend/front_script.js') }}"></script>
 
     <script>
         $(window).on('load', function () {
