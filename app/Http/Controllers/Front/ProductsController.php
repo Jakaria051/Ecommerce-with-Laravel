@@ -9,56 +9,84 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    public function listing($url)
+    public function listing($url,Request $request)
     {
-        $categoryCount = Category::where(['url'=>$url,'status'=>1])->count();
-        if($categoryCount > 0)
+        if($request->ajax())
         {
-            //echo "Category exists"; die;
-            $categoryDetails = Category::catDetails($url);
-
-            $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetails['catIds'])
-            ->where('status',1);
-
-            //If sort is selected by user
-            if(isset($_GET['sort']) && !empty($_GET['sort']))
+            $data = $request->all();
+           // echo "<pre>"; print_r($data); die;
+            $url = $data['url'];
+            $categoryCount = Category::where(['url'=>$url,'status'=>1])->count();
+            if($categoryCount > 0)
             {
-                if($_GET['sort'] == "product_latest")
-                {
-                    $categoryProducts->orderBy('id','desc');
-                }
-                    else if($_GET['sort'] == "product_name_a_z")
-                    {
-                        $categoryProducts->orderBy('product_name','Asc');
+                //echo "Category exists"; die;
+                $categoryDetails = Category::catDetails($url);
 
-                    }
-                    else if($_GET['sort'] == "product_name_z_a")
-                    {
-                        $categoryProducts->orderBy('product_name','Desc');
-                    }
-                    else if($_GET['sort'] == "price_lowest")
-                    {
-                        $categoryProducts->orderBy('product_price','Asc');
-                    }
-                    else if($_GET['sort'] == "price_highest")
-                    {
-                        $categoryProducts->orderBy('product_price','Desc');
-                    }
-                else
+                $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetails['catIds'])
+                ->where('status',1);
+
+                //If sort is selected by user
+                if(isset($data['sort']) && !empty($data['sort']))
                 {
-                    $categoryProducts->orderBy('id','desc');
+                    if($data['sort'] == "product_latest")
+                    {
+                        $categoryProducts->orderBy('id','desc');
+                    }
+                        else if($data['sort'] == "product_name_a_z")
+                        {
+                            $categoryProducts->orderBy('product_name','Asc');
+
+                        }
+                        else if($data['sort'] == "product_name_z_a")
+                        {
+                            $categoryProducts->orderBy('product_name','Desc');
+                        }
+                        else if($data['sort'] == "price_lowest")
+                        {
+                            $categoryProducts->orderBy('product_price','Asc');
+                        }
+                        else if($data['sort'] == "price_highest")
+                        {
+                            $categoryProducts->orderBy('product_price','Desc');
+                        }
+                    else
+                    {
+                        $categoryProducts->orderBy('id','desc');
+                    }
                 }
+
+                $categoryProducts = $categoryProducts->paginate(30);
+
+
+                return view('front.products.ajax_product_listing',compact('categoryDetails','categoryProducts','url'));
+
+            }
+            else
+            {
+                abort(404);
             }
 
-            $categoryProducts = $categoryProducts->paginate(3);
-
-
-            return view('front.products.listing',compact('categoryDetails','categoryProducts'));
 
         }
         else
         {
-            abort(404);
+            $categoryCount = Category::where(['url'=>$url,'status'=>1])->count();
+            if($categoryCount > 0)
+            {
+                //echo "Category exists"; die;
+                $categoryDetails = Category::catDetails($url);
+
+                $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetails['catIds'])
+                ->where('status',1);
+                $categoryProducts = $categoryProducts->paginate(30);
+
+                return view('front.products.listing',compact('categoryDetails','categoryProducts','url'));
+            }else{
+                abort(404);
+            }
+
+
+
         }
     }
 }
