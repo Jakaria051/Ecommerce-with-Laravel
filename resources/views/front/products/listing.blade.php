@@ -13,29 +13,58 @@
                         <div class="collection-mobile-back"><span class="filter-back"><i class="fa fa-angle-left"
                                     aria-hidden="true"></i> back</span></div>
                         <div class="collection-collapse-block open">
-                            <h3 class="collapse-block-title">Type</h3>
+                            <h3 class="collapse-block-title">Fabric</h3>
                             <div class="collection-collapse-block-content">
                                 <div class="collection-brand-filter">
-                                    <div class="custom-control custom-checkbox collection-filter-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="zara">
-                                        <label class="custom-control-label" for="zara">Coats</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox collection-filter-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="vera-moda">
-                                        <label class="custom-control-label" for="vera-moda">Jackets</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox collection-filter-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="forever-21">
-                                        <label class="custom-control-label" for="forever-21">Gilets</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox collection-filter-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="roadster">
-                                        <label class="custom-control-label" for="roadster">Leather</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox collection-filter-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="only">
-                                        <label class="custom-control-label" for="only">others</label>
-                                    </div>
+
+                                    @foreach ($fabricArray as $fabric)
+                                    <input class="fabric" type="checkbox" style="margin-top: -3px;" name="fabric[]" value="{{ $fabric }}" id="{{ $fabric }}">&nbsp;&nbsp;{{ $fabric }}<br>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="collection-collapse-block open">
+                            <h3 class="collapse-block-title">Sleeve</h3>
+                            <div class="collection-collapse-block-content">
+                                <div class="collection-brand-filter">
+                                    @foreach ($sleeveArray as $sleeve)
+                                    <input class="sleeve" type="checkbox" style="margin-top: -3px;" name="sleeve[]" value="{{ $sleeve }}" id="{{ $sleeve }}">&nbsp;&nbsp;{{ $sleeve }}<br>
+                                    @endforeach
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="collection-collapse-block open">
+                            <h3 class="collapse-block-title">Pattern</h3>
+                            <div class="collection-collapse-block-content">
+                                <div class="collection-brand-filter">
+                                    @foreach ($PatternArray as $pattern)
+                                    <input class="pattern" type="checkbox" style="margin-top: -3px;" name="pattern[]" value="{{ $pattern }}" id="{{ $pattern }}">&nbsp;&nbsp;{{ $pattern }}<br>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="collection-collapse-block open">
+                            <h3 class="collapse-block-title">Fit</h3>
+                            <div class="collection-collapse-block-content">
+                                <div class="collection-brand-filter">
+                                    @foreach ($fitArray as $fit)
+                                    <input class="fit" type="checkbox" style="margin-top: -3px;" name="fit[]" value="{{ $fit }}" id="{{ $fit }}">&nbsp;&nbsp;{{ $fit }}<br>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="collection-collapse-block open">
+                            <h3 class="collapse-block-title">Occation</h3>
+                            <div class="collection-collapse-block-content">
+                                <div class="collection-brand-filter">
+                                    @foreach ($occasionArray as $occation)
+                                    <input class="occation" type="checkbox" style="margin-top: -3px;" name="occation[]" value="{{ $occation }}" id="{{ $occation }}">&nbsp;&nbsp;{{ $occation }}<br>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -85,6 +114,8 @@
                     </div>
                     <!-- side-bar banner end here -->
                 </div>
+
+
                 <div class="collection-content col">
                     <div class="page-main-content">
                         <div class="row">

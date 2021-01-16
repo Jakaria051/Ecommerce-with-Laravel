@@ -14,17 +14,20 @@ class ProductsController extends Controller
         if($request->ajax())
         {
             $data = $request->all();
-           // echo "<pre>"; print_r($data); die;
+            // echo "<pre>"; print_r($data); die;
             $url = $data['url'];
             $categoryCount = Category::where(['url'=>$url,'status'=>1])->count();
             if($categoryCount > 0)
             {
                 //echo "Category exists"; die;
                 $categoryDetails = Category::catDetails($url);
-
                 $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetails['catIds'])
                 ->where('status',1);
-
+                //If fabric filter is selected
+                if(isset($data['fabric']) && !empty($data['fabric']))
+                {
+                    $categoryProducts->whereIn('products.fabric',$data['fabric']);
+                }
                 //If sort is selected by user
                 if(isset($data['sort']) && !empty($data['sort']))
                 {
@@ -56,8 +59,6 @@ class ProductsController extends Controller
                 }
 
                 $categoryProducts = $categoryProducts->paginate(30);
-
-
                 return view('front.products.ajax_product_listing',compact('categoryDetails','categoryProducts','url'));
 
             }
@@ -80,7 +81,17 @@ class ProductsController extends Controller
                 ->where('status',1);
                 $categoryProducts = $categoryProducts->paginate(30);
 
-                return view('front.products.listing',compact('categoryDetails','categoryProducts','url'));
+                //Filter Arrays
+                $productFilters = Product::productFilters();
+                $fabricArray = $productFilters['fabricArray'];
+                $sleeveArray = $productFilters['sleeveArray'];
+                $PatternArray = $productFilters['PatternArray'];
+                $fitArray = $productFilters['fitArray'];
+                $occasionArray = $productFilters['occasionArray'];
+
+                $page_name = "listing";
+
+                return view('front.products.listing',compact('categoryDetails','categoryProducts','url','fabricArray','sleeveArray','PatternArray','fitArray','occasionArray','page_name'));
             }else{
                 abort(404);
             }
