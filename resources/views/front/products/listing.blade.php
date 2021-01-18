@@ -62,8 +62,8 @@
                             <h3 class="collapse-block-title">Occation</h3>
                             <div class="collection-collapse-block-content">
                                 <div class="collection-brand-filter">
-                                    @foreach ($occasionArray as $occation)
-                                    <input class="occation" type="checkbox" style="margin-top: -3px;" name="occation[]" value="{{ $occation }}" id="{{ $occation }}">&nbsp;&nbsp;{{ $occation }}<br>
+                                    @foreach ($occasionArray as $occasion)
+                                    <input class="occasion" type="checkbox" style="margin-top: -3px;" name="occasion[]" value="{{ $occasion }}" id="{{ $occasion }}">&nbsp;&nbsp;{{ $occasion }}<br>
                                     @endforeach
                                 </div>
                             </div>

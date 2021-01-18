@@ -28,6 +28,26 @@ class ProductsController extends Controller
                 {
                     $categoryProducts->whereIn('products.fabric',$data['fabric']);
                 }
+                //If sleeve filter is selected
+                if(isset($data['sleeve']) && !empty($data['sleeve']))
+                {
+                    $categoryProducts->whereIn('products.sleeve',$data['sleeve']);
+                }
+                //If pattern filter is selected
+                if(isset($data['pattern']) && !empty($data['pattern']))
+                {
+                    $categoryProducts->whereIn('products.pattern',$data['pattern']);
+                }
+                //If fit filter is selected
+                if(isset($data['fit']) && !empty($data['fit']))
+                {
+                    $categoryProducts->whereIn('products.fit',$data['fit']);
+                }
+                //If occation filter is selected
+                if(isset($data['occasion']) && !empty($data['occasion']))
+                {
+                    $categoryProducts->whereIn('products.occasion',$data['occasion']);
+                }
                 //If sort is selected by user
                 if(isset($data['sort']) && !empty($data['sort']))
                 {
