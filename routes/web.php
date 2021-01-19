@@ -5,6 +5,7 @@ use App\Http\Controllers\Front\IndexController;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\Auth;
+use App\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,7 +93,11 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
 
 //Front
     Route::namespace('Front')->group(function(){
+        $catUrls = Category::select('url')->where('status',1)->get()->pluck('url')->toArray();
+        foreach($catUrls as $url)
+        {
+            Route::get('/'.$url,'ProductsController@listing'); //listing/Categoty route
+        }
         Route::get('/','IndexController@index'); //home page route
-        Route::get('/{url}','ProductsController@listing'); //listing/Categoty route
-        
+
     });
