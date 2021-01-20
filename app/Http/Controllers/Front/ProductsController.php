@@ -7,11 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Pagination\Paginator;
+
 
 class ProductsController extends Controller
 {
     public function listing(Request $request)
     {
+        Paginator::useBootstrap();
+
         if($request->ajax())
         {
             $data = $request->all();
@@ -79,7 +83,7 @@ class ProductsController extends Controller
                     }
                 }
 
-                $categoryProducts = $categoryProducts->paginate(30);
+                $categoryProducts = $categoryProducts->paginate(3);
                 return view('front.products.ajax_product_listing',compact('categoryDetails','categoryProducts','url'));
 
             }
@@ -101,7 +105,7 @@ class ProductsController extends Controller
 
                 $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetails['catIds'])
                 ->where('status',1);
-                $categoryProducts = $categoryProducts->paginate(30);
+                $categoryProducts = $categoryProducts->paginate(3);
 
                 //Filter Arrays
                 $productFilters = Product::productFilters();
@@ -121,5 +125,10 @@ class ProductsController extends Controller
 
 
         }
+    }
+
+    public function detail($code,$id)
+    {
+        return view('front.products.detail');
     }
 }

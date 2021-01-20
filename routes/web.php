@@ -93,11 +93,14 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
 
 //Front
     Route::namespace('Front')->group(function(){
+        Route::get('/','IndexController@index'); //home page route
+       //listing
         $catUrls = Category::select('url')->where('status',1)->get()->pluck('url')->toArray();
         foreach($catUrls as $url)
         {
             Route::get('/'.$url,'ProductsController@listing'); //listing/Categoty route
         }
-        Route::get('/','IndexController@index'); //home page route
+        //details
+        Route::get('/product/{code}/{id}','ProductsController@detail');
 
     });
