@@ -160,35 +160,40 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="product-slick">
-                                    <div><img src="../assets/images/pro3/1.jpg" alt=""
-                                            class="img-fluid blur-up lazyload image_zoom_cls-0"></div>
-                                    <div><img src="../assets/images/pro3/2.jpg" alt=""
-                                            class="img-fluid blur-up lazyload image_zoom_cls-1"></div>
-                                    <div><img src="../assets/images/pro3/27.jpg" alt=""
-                                            class="img-fluid blur-up lazyload image_zoom_cls-2"></div>
-                                    <div><img src="../assets/images/pro3/27.jpg" alt=""
-                                            class="img-fluid blur-up lazyload image_zoom_cls-3"></div>
+                                    <div><a href="{{ asset('images/product_images/large/'.$productDetails['main_image']) }}">
+                                         <img src="{{ asset('images/product_images/large/'.$productDetails['main_image']) }}" alt=""
+                                            class="img-fluid blur-up lazyload image_zoom_cls-0">
+                                        </a></div>
+                                   @foreach ($productDetails['images'] as $key=>$image)
+                                   <div><a href="{{ asset('images/product_images/large/'.$image['image']) }}">
+                                    <img src="{{ asset('images/product_images/large/'.$image['image']) }}" alt=""
+                                       class="img-fluid blur-up lazyload image_zoom_cls-{{ $key }}">
+                                   </a></div>
+                                   @endforeach
+
                                 </div>
                                 <div class="row">
                                     <div class="col-12 p-0">
                                         <div class="slider-nav">
-                                            <div><img src="../assets/images/pro3/1.jpg" alt=""
-                                                    class="img-fluid blur-up lazyload"></div>
-                                            <div><img src="../assets/images/pro3/2.jpg" alt=""
-                                                    class="img-fluid blur-up lazyload"></div>
-                                            <div><img src="../assets/images/pro3/27.jpg" alt=""
-                                                    class="img-fluid blur-up lazyload"></div>
-                                            <div><img src="../assets/images/pro3/27.jpg" alt=""
-                                                    class="img-fluid blur-up lazyload"></div>
+
+                                            @foreach ($productDetails['images'] as $image)
+                                            <div>
+                                                <a href="{{ asset('images/product_images/large/'.$image['image']) }}">
+                                             <img src="{{ asset('images/product_images/large/'.$image['image']) }}" alt="img-slider"
+                                                class="img-fluid blur-up lazyload ">
+                                                </a>
+                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 rtl-text">
                                 <div class="product-right">
-                                    <h2>Women Pink Shirt</h2>
-                                    <h4><del>$459.00</del><span>55% off</span></h4>
-                                    <h3>$32.96</h3>
+                                    <h2>{{ data_get($productDetails,'product_name') }}</h2>
+                                    <h4>{{ $productDetails['brand']['name'] }}  &nbsp;&nbsp; <small>{{ $total_stock }} items in stock</small></h4>
+                                    {{-- <h4><del>$459.00</del><span>55% off</span></h4> --}}
+                                    <h3>${{ data_get($productDetails,'product_price') }}</h3>
                                     <ul class="color-variant">
                                         <li class="bg-light0"></li>
                                         <li class="bg-light1"></li>
@@ -196,33 +201,17 @@
                                     </ul>
                                     <div class="product-description border-product">
                                         <h6 class="product-title size-text">select size <span><a href="#"
-                                                    data-toggle="modal" data-target="#sizemodal">size
+                                                    >size
                                                     chart</a></span></h6>
-                                        <div class="modal fade" id="sizemodal" tabindex="-1" role="dialog"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Sheer
-                                                            Straight Kurta</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close"><span
-                                                                aria-hidden="true">&times;</span></button>
-                                                    </div>
-                                                    <div class="modal-body"><img
-                                                            src="../assets/images/size-chart.jpg" alt=""
-                                                            class="img-fluid blur-up lazyload"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="size-box">
-                                            <ul>
-                                                <li class="active"><a href="#">s</a></li>
-                                                <li><a href="#">m</a></li>
-                                                <li><a href="#">l</a></li>
-                                                <li><a href="#">xl</a></li>
-                                            </ul>
-                                        </div>
+
+
+                                         <select name="size" class=""  id="">
+                                             <option value="">Select Size</option>
+                                             @foreach ($productDetails['attributes'] as $attribute)
+                                             <option value="">{{ $attribute['size'] }}</option>
+                                             @endforeach
+                                         </select> <br>
+
                                         <h6 class="product-title">quantity</h6>
                                         <div class="qty-box">
                                             <div class="input-group"><span class="input-group-prepend"><button
@@ -241,10 +230,7 @@
                                             href="#" class="btn btn-solid">buy now</a></div>
                                     <div class="border-product">
                                         <h6 class="product-title">product details</h6>
-                                        <p>Sed ut perspiciatis, unde omnis iste natus error sit voluptatem
-                                            accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab
-                                            illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
-                                            explicabo. Nemo enim ipsam voluptatem,</p>
+                                        <p>{{ data_get($productDetails,'description') }}</p>
                                     </div>
                                     <div class="border-product">
                                         <h6 class="product-title">share it</h6>
@@ -307,62 +293,74 @@
                                 <div class="tab-content nav-material" id="top-tabContent">
                                     <div class="tab-pane fade show active" id="top-home" role="tabpanel"
                                         aria-labelledby="top-home-tab">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                            industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                            since the 1500s, when an unknown printer took a galley of type and
-                                            scrambled it to make a type specimen book. It has survived not only five
-                                            centuries, but also the leap into electronic typesetting, remaining
-                                            essentially unchanged. It was popularised in the 1960s with the release
-                                            of Letraset sheets containing Lorem Ipsum passages, and more recently
-                                            with desktop publishing software like Aldus PageMaker including versions
-                                            of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
-                                            typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                            text ever since the 1500s, when an unknown printer took a galley of type
-                                            and scrambled it to make a type specimen book. It has survived not only
-                                            five centuries, but also the leap into electronic typesetting, remaining
-                                            essentially unchanged. It was popularised in the 1960s with the release
-                                            of Letraset sheets containing Lorem Ipsum passages, and more recently
-                                            with desktop publishing software like Aldus PageMaker including versions
-                                            of Lorem Ipsum.</p>
+                                        <p>{{ data_get($productDetails,'description') }}</p>
                                     </div>
                                     <div class="tab-pane fade" id="top-profile" role="tabpanel"
                                         aria-labelledby="profile-top-tab">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                            industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                            since the 1500s, when an unknown printer took a galley of type and
-                                            scrambled it to make a type specimen book. It has survived not only five
-                                            centuries, but also the leap into electronic typesetting, remaining
-                                            essentially unchanged. It was popularised in the 1960s with the release
-                                            of Letraset sheets containing Lorem Ipsum passages, and more recently
-                                            with desktop publishing software like Aldus PageMaker including versions
-                                            of Lorem Ipsum.</p>
+                                        <p>{{ data_get($productDetails,'description') }}</p>
                                         <div class="single-product-tables">
                                             <table>
                                                 <tbody>
                                                     <tr>
-                                                        <td>Febric</td>
-                                                        <td>Chiffon</td>
+                                                        <td>Brand</td>
+                                                        <td>{{ $productDetails['brand']['name'] }}</td>
                                                     </tr>
+                                                    <tr>
+                                                        <td>Code</td>
+                                                        <td>{{ data_get($productDetails,'product_code') }}</td>
+                                                    </tr>
+
                                                     <tr>
                                                         <td>Color</td>
-                                                        <td>Red</td>
+                                                        <td>{{ data_get($productDetails,'color') }}</td>
                                                     </tr>
+
+                                                    @if (!empty($productDetails['fabric']))
                                                     <tr>
-                                                        <td>Material</td>
-                                                        <td>Crepe printed</td>
+                                                        <td>Febric</td>
+                                                        <td>{{ data_get($productDetails,'fabric') }}</td>
                                                     </tr>
+                                                    @endif
+
+                                                    @if (!empty($productDetails['pattern']))
+                                                    <tr>
+                                                        <td>Pattern</td>
+                                                        <td>{{ data_get($productDetails,'pattern') }}</td>
+                                                    </tr>
+                                                    @endif
+
+                                                    @if (!empty($productDetails['sleeve']))
+                                                    <tr>
+                                                        <td>Sleeve</td>
+                                                        <td>{{ data_get($productDetails,'sleeve') }}</td>
+                                                    </tr>
+                                                    @endif
+
+                                                    @if (!empty($productDetails['fit']))
+                                                    <tr>
+                                                        <td>Fit</td>
+                                                        <td>{{ data_get($productDetails,'fit') }}</td>
+                                                    </tr>
+                                                    @endif
+
+                                                    @if (!empty($productDetails['occasion']))
+                                                    <tr>
+                                                        <td>Occasion</td>
+                                                        <td>{{ data_get($productDetails,'occasion') }}</td>
+                                                    </tr>
+                                                    @endif
+
+                                                    @if (!empty($productDetails['fit']))
+                                                    <tr>
+                                                        <td>Fit</td>
+                                                        <td>{{ data_get($productDetails,'fit') }}</td>
+                                                    </tr>
+                                                    @endif
                                                 </tbody>
                                             </table>
                                             <table>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Length</td>
-                                                        <td>50 Inches</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Size</td>
-                                                        <td>S, M, L .XXL</td>
-                                                    </tr>
+
                                                 </tbody>
                                             </table>
                                         </div>

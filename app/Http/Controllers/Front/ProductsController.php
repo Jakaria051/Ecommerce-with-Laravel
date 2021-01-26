@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Product;
+use App\ProductsAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Pagination\Paginator;
@@ -127,8 +128,11 @@ class ProductsController extends Controller
         }
     }
 
-    public function detail($code,$id)
+    public function detail($id)
     {
-        return view('front.products.detail');
+        $productDetails = Product::with(['category','brand','attributes','images'])->find($id)->toArray();
+       // dd($productDetails);
+        $total_stock = ProductsAttribute::where('product_id',$id)->sum('stock');
+        return view('front.products.detail',compact('productDetails','total_stock'));
     }
 }

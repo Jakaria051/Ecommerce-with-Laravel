@@ -101,6 +101,6 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
             Route::get('/'.$url,'ProductsController@listing'); //listing/Categoty route
         }
         //details
-        Route::get('/product/{code}/{id}','ProductsController@detail');
+        Route::get('/product/{id}','ProductsController@detail');
 
     });
