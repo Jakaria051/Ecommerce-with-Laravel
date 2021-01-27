@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="City Sheepskin has been manufacturing high quality sheepskin jackets and coats for both men and women for over 25 years with our specially picked expert team, we supplied and still supply some of the biggest fashion houses all over the world, but still our designing and manufacturing process all happens in house here in our London Shoreditch factory and showroom, so from start to end we have complete control over all aspects of our garments ensuring superior quality garments">

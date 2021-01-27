@@ -192,23 +192,17 @@
                                 <div class="product-right">
                                     <h2>{{ data_get($productDetails,'product_name') }}</h2>
                                     <h4>{{ $productDetails['brand']['name'] }}  &nbsp;&nbsp; <small>{{ $total_stock }} items in stock</small></h4>
-                                    {{-- <h4><del>$459.00</del><span>55% off</span></h4> --}}
-                                    <h3>${{ data_get($productDetails,'product_price') }}</h3>
-                                    <ul class="color-variant">
-                                        <li class="bg-light0"></li>
-                                        <li class="bg-light1"></li>
-                                        <li class="bg-light2"></li>
-                                    </ul>
+                                    <h3 class="getAttrPrice">TAKA: {{ data_get($productDetails,'product_price') }}</h3>
+
                                     <div class="product-description border-product">
-                                        <h6 class="product-title size-text">select size <span><a href="#"
-                                                    >size
+                                        <h6 class="product-title size-text">select size <span><a href="#">size
                                                     chart</a></span></h6>
 
 
-                                         <select name="size" class=""  id="">
+                                         <select name="size" product-id={{ $productDetails['id'] }}  id="getPrice">
                                              <option value="">Select Size</option>
                                              @foreach ($productDetails['attributes'] as $attribute)
-                                             <option value="">{{ $attribute['size'] }}</option>
+                                             <option value="{{ $attribute['size'] }}">{{ $attribute['size'] }}</option>
                                              @endforeach
                                          </select> <br>
 

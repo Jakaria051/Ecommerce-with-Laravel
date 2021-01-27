@@ -1,4 +1,10 @@
 $(document).ready(function(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     // $('#sort').on('change',function(){
     //     this.form.submit();
     // });
@@ -138,6 +144,32 @@ $(document).ready(function(){
         });
         return filter;
     }
+
+    $("#getPrice").on('change',function(){
+        let size = $(this).val();
+        let product_id = $(this).attr('product-id');
+        let url = '/get-product-price';
+        if(size == "")
+        {
+            alert("Please Select Size");
+            return false;
+        }
+        $.ajax({
+            url:url,
+            data:{
+                size:size,
+                product_id:product_id
+            },
+            type:'post',
+            success:function(resp)
+            {
+                $(".getAttrPrice").html("Taka: "+resp);
+
+             },error:function(){
+                alert("Error");
+            }
+        });
+    });
 
 
 });
