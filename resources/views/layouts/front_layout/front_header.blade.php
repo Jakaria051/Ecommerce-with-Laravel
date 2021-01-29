@@ -59,7 +59,7 @@
                                                 aria-hidden="true"></i></div>
                                     </li>
                                      <li>
-                                        <a href="index.html">Home</a></li>
+                                        <a href="{{ url('/') }}">Home</a></li>
 
 
                                         @foreach ($sections as $section)

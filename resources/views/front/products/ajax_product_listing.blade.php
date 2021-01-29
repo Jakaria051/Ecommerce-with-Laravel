@@ -9,7 +9,7 @@
             <div class="product-box">
                 <div class="img-wrapper">
                     <div class="front">
-                        <a href="#">
+                        <a href="{{ url('product/'.$product['id']) }}">
                             @if (isset($product['main_image']))
                                 @php
                                 $product_image_path = 'images/product_images/small/'.$product['main_image'];
@@ -43,7 +43,7 @@
                     <div class="rating"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i> <i class="fa fa-star"></i>
                     </div>
-                    <a href="product-page(no-sidebar).html">
+                    <a href="{{ url('product/'.$product['id']) }}">
                         <h6>{{ data_get($product,'product_name') }}</h6>
                     </a>
                     <h6>

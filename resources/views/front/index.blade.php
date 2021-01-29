@@ -22,7 +22,7 @@
                                     <span class="lable4">on sale</span>
                                 </div>
                                 <div class="front">
-                                    <a href="product-page(no-sidebar).html">
+                                    <a href="{{ url('product/'.$featuredItem['id']) }}">
                                         @php
                                             $product_image_path = 'images/product_images/small/'.$featuredItem['main_image'];
                                         @endphp
@@ -56,7 +56,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                 </div>
-                                <a href="product-page(no-sidebar).html">
+                                <a href="{{ url('product/'.$featuredItem['id']) }}">
                                     <h6>{{ data_get($featuredItem,'product_name') }}</h6>
                                 </a>
                                 <h4>${{ data_get($featuredItem,'product_price') }}</h4>
@@ -156,7 +156,7 @@
                                     <div class="product-box">
                                         <div class="img-wrapper">
                                             <div class="front">
-                                                <a href="product-page(no-sidebar).html">
+                                                <a href="{{ url('product/'.$newProduct['id']) }}">
 
                                                     @php
                                                         $product_image_path = 'images/product_images/small/'.$newProduct['main_image'];
@@ -192,7 +192,7 @@
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                             </div>
-                                            <a href="product-page(no-sidebar).html">
+                                            <a href="{{ url('product/'.$newProduct['id']) }}">
                                                 <h6>{{ data_get($newProduct,'product_name') }}</h6>
                                                 <p>{{ data_get($newProduct,'product_code') }} ({{ data_get($newProduct,'product_color') }})</p>
                                             </a>
