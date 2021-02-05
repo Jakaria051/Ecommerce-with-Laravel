@@ -191,9 +191,32 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 rtl-text">
+                                @if (Session :: has('success_message'))
+                                <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                                    {{ Session:: get('success_message') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @endif
+                                @if (Session :: has('error_message'))
+                                <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                                    {{ Session:: get('error_message') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @endif
+
                                 <div class="product-right">
                                     <h2>{{ data_get($productDetails,'product_name') }}</h2>
                                     <h4>{{ $productDetails['brand']['name'] }}  &nbsp;&nbsp; <small>{{ $total_stock }} items in stock</small></h4>
+
+
+
+                                  <form action="{{ url('add-to-cart') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ data_get($productDetails,'id') }}">
                                     <h3 class="getAttrPrice">TAKA: {{ data_get($productDetails,'product_price') }}</h3>
 
                                     <div class="product-description border-product">
@@ -201,7 +224,7 @@
                                                     chart</a></span></h6>
 
 
-                                         <select name="size" product-id={{ $productDetails['id'] }}  id="getPrice">
+                                         <select name="size" product-id={{ $productDetails['id'] }}  id="getPrice" required="">
                                              <option value="">Select Size</option>
                                              @foreach ($productDetails['attributes'] as $attribute)
                                              <option value="{{ $attribute['size'] }}">{{ $attribute['size'] }}</option>
@@ -214,16 +237,24 @@
                                                         type="button" class="btn quantity-left-minus"
                                                         data-type="minus" data-field=""><i
                                                             class="ti-angle-left"></i></button> </span>
-                                                <input type="text" name="quantity" class="form-control input-number"
-                                                    value="1"> <span class="input-group-prepend"><button
+                                                <input type="number" name="quantity" class="form-control input-number"
+                                                    value="1" required>
+                                                     <span class="input-group-prepend"><button
                                                         type="button" class="btn quantity-right-plus"
                                                         data-type="plus" data-field=""><i
                                                             class="ti-angle-right"></i></button></span></div>
                                         </div>
                                     </div>
-                                    <div class="product-buttons"><a href="#" data-toggle="modal"
-                                            data-target="#addtocart" class="btn btn-solid">add to cart</a> <a
-                                            href="#" class="btn btn-solid">buy now</a></div>
+                                    <div class="product-buttons">
+                                        {{-- <a href="#"  data-toggle="modal"
+                                            data-target="#addtocart" class="btn btn-solid">add to cart</a> --}}
+                                            <button class="btn btn-solid" type="submit">add to cart</button>
+                                            <a
+                                            href="#" class="btn btn-solid">buy now</a>
+                                    </div>
+
+                                </form>
+
                                     <div class="border-product">
                                         <h6 class="product-title">product details</h6>
                                         <p>{{ data_get($productDetails,'description') }}</p>
