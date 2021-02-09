@@ -87,6 +87,11 @@
                     &nbsp;
                     {{ $productdata['product_color'] }}
                   </div>
+                  <div class="form-group">
+                    <label for="product_color">Product Price</label>
+                    &nbsp;
+                    {{ $productdata['product_price'] }}
+                  </div>
               </div>
 
 

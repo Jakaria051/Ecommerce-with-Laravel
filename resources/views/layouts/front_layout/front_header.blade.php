@@ -46,7 +46,7 @@
                             </a>
 
                         </div>
-                        <div class="brand-logo"><a href="index.html"><img src="{{ asset('images/front_images/logo1.png') }}"
+                        <div class="brand-logo"><a href="{{ url('/') }}"><img src="{{ asset('images/front_images/logo1.png') }}"
                                     class="img-fluid blur-up lazyload" alt=""></a></div>
                     </div>
                     <div class="menu-right pull-right">

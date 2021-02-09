@@ -1,5 +1,7 @@
   {{-- All Products view --}}
-
+@php
+    use App\Product;
+@endphp
     <div class="row margin-res">
 
 
@@ -49,7 +51,19 @@
                     <h6>
                         {{ $product['brand']['name'] }}
                     </h6>
-                    <h4>${{ data_get($product,'product_price') }}</h4>
+
+                    @php
+                        $discountPrice = Product::getDiscountPrice($product['id']);
+                    @endphp
+                    <h4>
+                        @if ($discountPrice >0)
+                        <del>${{ data_get($product,'product_price') }}</del>
+                         ${{ $discountPrice }}
+                        @else
+                        ${{ data_get($product,'product_price') }}
+                        @endif
+                    </h4>
+
                     <ul class="color-variant">
                         <li class="bg-light0"></li>
                         <li class="bg-light1"></li>

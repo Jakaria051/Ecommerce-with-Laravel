@@ -1,4 +1,6 @@
-
+@php
+    use App\Product;
+@endphp
 @extends('layouts.front_layout.front_layout')
 @section('content')
 
@@ -217,7 +219,17 @@
                                   <form action="{{ url('add-to-cart') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ data_get($productDetails,'id') }}">
-                                    <h3 class="getAttrPrice">TAKA: {{ data_get($productDetails,'product_price') }}</h3>
+                                    @php
+                                    $discountPrice = Product::getDiscountPrice($productDetails['id']);
+                                    @endphp
+                                    <h3 class="getAttrPrice">
+                                        @if ($discountPrice >0)
+                                        <del>${{ data_get($productDetails,'product_price') }}</del>
+                                        ${{ $discountPrice }}
+                                        @else
+                                        ${{ data_get($productDetails,'product_price') }}
+                                        @endif
+                                    </h3>
 
                                     <div class="product-description border-product">
                                         <h6 class="product-title size-text">select size <span><a href="#">size

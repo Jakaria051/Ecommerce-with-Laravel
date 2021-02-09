@@ -106,4 +106,5 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::post('/get-product-price','ProductsController@getProductPrice'); //ajax
         //add to cart
         Route::post('/add-to-cart','ProductsController@addToCart');
+        Route::get('/cart','ProductsController@cart');
     });
