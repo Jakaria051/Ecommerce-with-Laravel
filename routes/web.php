@@ -107,4 +107,6 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         //add to cart
         Route::post('/add-to-cart','ProductsController@addToCart');
         Route::get('/cart','ProductsController@cart');
+        //update cart item quantity
+        Route::post('/update-cart-item-qty','ProductsController@updateCartItemQty');
     });

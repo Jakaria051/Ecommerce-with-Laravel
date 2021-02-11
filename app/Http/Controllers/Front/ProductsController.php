@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class ProductsController extends Controller
 {
@@ -209,5 +210,17 @@ class ProductsController extends Controller
         $userCartItems = Cart::userCartItems();
        // dd($userCartItems);
         return view('front.products.cart',compact('userCartItems'));
+    }
+
+    public function updateCartItemQty(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+            Cart::where('id',$data['cardid'])->update(['quantity'=>$data['qty']]);
+            $userCartItems = Cart::userCartItems();
+            return response()->json(['view'=>(String)View::make('front.products.cart_item',compact('userCartItems'))]);
+        }
     }
 }
