@@ -1,6 +1,8 @@
 
 {{-- product slider --}}
-
+@php
+    use App\Product;
+@endphp
 @extends('layouts.front_layout.front_layout')
 @section('content')
 
@@ -59,7 +61,19 @@
                                 <a href="{{ url('product/'.$featuredItem['id']) }}">
                                     <h6>{{ data_get($featuredItem,'product_name') }}</h6>
                                 </a>
-                                <h4>${{ data_get($featuredItem,'product_price') }}</h4>
+
+                                @php
+                                $discountPrice = Product::getDiscountPrice($featuredItem['id']);
+                                @endphp
+                            <h4>
+                                @if ($discountPrice >0)
+                                <del>${{ data_get($featuredItem,'product_price') }}</del>
+                                 ${{ $discountPrice }}
+                                @else
+                                ${{ data_get($featuredItem,'product_price') }}
+                                @endif
+                            </h4>
+
                             </div>
                         </div>
                         @endforeach
@@ -196,10 +210,17 @@
                                                 <h6>{{ data_get($newProduct,'product_name') }}</h6>
                                                 <p>{{ data_get($newProduct,'product_code') }} ({{ data_get($newProduct,'product_color') }})</p>
                                             </a>
-                                            <h4>${{ data_get($newProduct,'product_price') }}
-                                            @if (!empty(data_get($newProduct,'product_discount')) )
-                                           &nbsp;&nbsp; <span style="color: red">-${{ data_get($newProduct,'product_discount') }}</span>
-                                            @endif
+
+                                            @php
+                                            $discountPrice = Product::getDiscountPrice($newProduct['id']);
+                                            @endphp
+                                            <h4>
+                                                @if ($discountPrice >0)
+                                                <del>${{ data_get($newProduct,'product_price') }}</del>
+                                                ${{ $discountPrice }}
+                                                @else
+                                                ${{ data_get($newProduct,'product_price') }}
+                                                @endif
                                             </h4>
 
                                         </div>

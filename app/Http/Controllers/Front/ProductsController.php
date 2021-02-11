@@ -146,8 +146,9 @@ class ProductsController extends Controller
         if($request->ajax())
         {
             $data = $request->all();
-            $getProductPrice = ProductsAttribute::where(['product_id'=>$data['product_id'],'size'=>$data['size']])->select('price')->first();
-            return $getProductPrice->price ;
+            $getDiscountAttrPrice = Product::getDiscountAttrPrice($data['product_id'],$data['size']);
+            return $getDiscountAttrPrice;
+
         }
     }
 
@@ -198,7 +199,7 @@ class ProductsController extends Controller
 
             $message = "Product has been added in your cart";
             Session::flash('success_message',$message);
-            return redirect()->back();
+            return redirect('cart');
         }
 
     }

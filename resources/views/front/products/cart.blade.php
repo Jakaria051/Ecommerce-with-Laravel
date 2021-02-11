@@ -1,5 +1,5 @@
 @php
-    use App\Cart;
+    use App\Product;
 @endphp
 @extends('layouts.front_layout.front_layout')
 @section('content')
@@ -28,6 +28,24 @@
 
             <div class="row">
                 <div class="col-sm-12">
+
+                    @if (Session :: has('success_message'))
+                    <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                        {{ Session:: get('success_message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+                    @if (Session :: has('error_message'))
+                    <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                        {{ Session:: get('error_message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+
                     <table class="table cart-table table-responsive-xs">
                         <thead>
                             <tr class="table-head">
@@ -45,7 +63,7 @@
                         @endphp
                         @foreach ($userCartItems as $item)
                         @php
-                            $attrPrice = Cart::getProductAttrPrice($item['product_id'],$item['size']);
+                            $attrPrice = Product::getDiscountAttrPrice($item['product_id'],$item['size']);
                         @endphp
                         <tbody>
                             <tr>
@@ -68,8 +86,8 @@
                                         </div>
 
                                         <div class="col-xs-3">
-                                            @if (isset($attrPrice) && !empty($attrPrice))
-                                            <h2 >${{ $attrPrice }}</h2>
+                                            @if (isset($attrPrice['product_price']) && !empty($attrPrice['product_price']))
+                                            <h2 >${{ $attrPrice['product_price'] }}</h2>
                                             @endif
                                         </div>
 
@@ -81,8 +99,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if (isset($attrPrice) && !empty($attrPrice))
-                                    <h2 >${{ $attrPrice }}</h2>
+                                    @if (isset($attrPrice['product_price']) && !empty($attrPrice['product_price']))
+                                    <h2 >${{ $attrPrice['product_price'] }}</h2>
                                     @endif
 
                                 </td>
@@ -100,14 +118,17 @@
                                     </div>
 
                                 </td>
-                                <td>----</td>
+                                <td> @if (isset($attrPrice['discount']) && !empty($attrPrice['discount']))
+                                    <h2 >${{ $attrPrice['discount'] }}</h2>
+                                    @endif
+                                </td>
                                 <td>
-                                    <h2 class="td-color">{{ $attrPrice * $item['quantity'] }}</h2>
+                                    <h2 class="td-color">{{ $attrPrice['final_price'] * $item['quantity'] }}</h2>
                                 </td>
                             </tr>
                         </tbody>
                         @php
-                            $total_price = $total_price + ($attrPrice * $item['quantity']);
+                            $total_price = $total_price + ($attrPrice['final_price'] * $item['quantity']);
                         @endphp
                         @endforeach
                     </table>

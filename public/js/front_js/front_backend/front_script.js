@@ -163,7 +163,13 @@ $(document).ready(function(){
             type:'post',
             success:function(resp)
             {
-                $(".getAttrPrice").html("Taka: "+resp);
+
+                if(resp['discount'] > 0)
+                {
+                    $(".getAttrPrice").html("<del>$ "+resp['product_price']+"</del> $"+resp['final_price']);
+                }else{
+                    $(".getAttrPrice").html("$ "+resp['product_price']);
+                }
 
              },error:function(){
                 alert("Error");
