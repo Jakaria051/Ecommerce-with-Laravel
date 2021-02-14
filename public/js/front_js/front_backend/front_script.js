@@ -213,6 +213,10 @@ $(document).ready(function(){
             type:"post",
             success:function(resp)
             {
+                if(resp.status == false)
+                {
+                    alert(resp.message);
+                }
                 $("#AppendCartItems").html(resp.view);
             },error:function()
             {
@@ -220,6 +224,32 @@ $(document).ready(function(){
             }
         });
 
+
+    });
+
+    //Delete Cart Items
+    $(document).on('click','.btnItemDelete',function(){
+        let cardId = $(this).data('cardid');
+       // alert(cardId); return false;
+       let result = confirm("Want to delete this cart");
+       if(result)
+       {
+            $.ajax({
+                data:{
+                    "cardid":cardId
+                },
+                url:"/delete-cart-item",
+                type:"post",
+                success:function(resp)
+                {
+                    $("#AppendCartItems").html(resp.view);
+                },
+                error:function()
+                {
+                    alert("Error");
+                }
+            });
+       }
 
     });
 

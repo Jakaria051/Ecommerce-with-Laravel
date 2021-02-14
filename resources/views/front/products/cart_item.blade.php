@@ -66,7 +66,7 @@
                             value="{{ data_get($item,'quantity') }}">
                             <button class="btn btnItemUpdate qtyMinus" data-cardid="{{ $item['id'] }}"><i class="ti-minus"></i></button>
                             <button class="btn btnItemUpdate qtyPlus" data-cardid="{{ $item['id'] }}"><i class="ti-plus"></i></button>
-                                <button ><a href="#" class="icon"><i class="ti-close"></i></a></button>
+                            <button class="btnItemDelete" data-cardid="{{ $item['id'] }}"><a href="#" class="icon"><i class="ti-close"></i></a></button>
                         </div>
 
 

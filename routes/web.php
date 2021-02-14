@@ -109,4 +109,6 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::get('/cart','ProductsController@cart');
         //update cart item quantity
         Route::post('/update-cart-item-qty','ProductsController@updateCartItemQty');
+        //delete cart item
+        Route::post('/delete-cart-item','ProductsController@deleteCartItem');
     });
