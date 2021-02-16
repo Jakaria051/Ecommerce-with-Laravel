@@ -22,13 +22,22 @@
                     <ul class="header-dropdown">
                         <li class="mobile-wishlist"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
                         </li>
+                        @if (Auth::check())
                         <li class="onhover-dropdown mobile-account">
                             <i class="fa fa-user" aria-hidden="true"></i> My Account
                             <ul class="onhover-show-div">
-                                <li><a href="#" data-lng="en">Login</a></li>
-                                <li><a href="#" data-lng="es">Logout</a></li>
+                                <li><a href="{{ url('my-account') }}" data-lng="es">My Account</a></li>
+                                <li><a href="{{ url('logout') }}" data-lng="es">Logout</a></li>
                             </ul>
                         </li>
+                        @else
+                        <li class="onhover-dropdown mobile-account">
+                            <i class="fa fa-user" aria-hidden="true"></i> My Account
+                            <ul class="onhover-show-div">
+                                <li><a href="{{ url('login-register') }}" data-lng="en">Login/Register</a></li>
+                            </ul>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </div>

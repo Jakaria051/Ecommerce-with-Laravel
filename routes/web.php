@@ -22,7 +22,7 @@ use App\Category;
 //     return view('welcome');
 // });
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -111,4 +111,12 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::post('/update-cart-item-qty','ProductsController@updateCartItemQty');
         //delete cart item
         Route::post('/delete-cart-item','ProductsController@deleteCartItem');
+
+        //Login/Register
+        Route::get('/login-register','UsersController@loginRegister');
+        Route::post('/login','UsersController@loginUser');
+        Route::post('/register','UsersController@registerUser');
+        Route::get('/logout','UsersController@logout');
+
+
     });
