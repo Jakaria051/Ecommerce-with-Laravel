@@ -15,6 +15,7 @@ class UsersController extends Controller
         return view('front.users.login_register');
     }
 
+
     public function registerUser(Request $request)
     {
         if($request->isMethod('post'))
@@ -41,6 +42,37 @@ class UsersController extends Controller
                     return redirect('t-shirts');
                 }
 
+            }
+        }
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $data = $request->all();
+        $emailCount = User::where('email',$data['email'])->count();
+        if($emailCount > 0)
+        {
+            return "false";
+        }else
+        {
+            return "true";
+        }
+    }
+
+    ////////////////////////Login ////////////////////////////
+
+    public function loginUser(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $data = $request->all();
+            if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']]))
+            {
+                return redirect('/cart');
+            }else {
+                $message = "Invalid username or password";
+                Session::flash('error_message',$message);
+                return redirect()->back();
             }
         }
     }

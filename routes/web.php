@@ -114,9 +114,11 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
 
         //Login/Register
         Route::get('/login-register','UsersController@loginRegister');
-        Route::post('/login','UsersController@loginUser');
+        Route::post('/login','UsersController@loginUser')->name('login.user');
         Route::post('/register','UsersController@registerUser');
         Route::get('/logout','UsersController@logout');
+        //validate email
+        Route::match(['get','post'],'/check-email','UsersController@checkEmail');
 
 
     });

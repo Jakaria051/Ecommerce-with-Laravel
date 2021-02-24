@@ -36,6 +36,12 @@
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/front_css/color16.css') }}" media="screen" id="color">
 
+    <style>
+    form.cmxform label.error, label.error {
+	color: red;
+	font-style: italic
+   }
+    </style>
 
 </head>
 
@@ -199,6 +205,9 @@
 
     <!-- menu js-->
     <script src="{{ url('js/front_js/menu.js') }}"></script>
+      {{-- validation --}}
+      <script src="{{ url('js/front_js/front_backend/validation/jquery.js') }}"></script>
+      <script src="{{ url('js/front_js/front_backend/validation/jquery.validate.js') }}"></script>
 
     <!-- lazyload js-->
     <script src="{{ url('js/front_js/lazysizes.min.js') }}"></script>
@@ -212,8 +221,12 @@
     <!-- Theme js-->
     <script src="{{ url('js/front_js/script.js') }}"></script>
 
+
     {{-- backend js --}}
     <script src="{{ url('js/front_js/front_backend/front_script.js') }}"></script>
+
+
+
 
     <script>
         $(window).on('load', function () {

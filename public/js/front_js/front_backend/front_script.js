@@ -253,5 +253,75 @@ $(document).ready(function(){
 
     });
 
+    		// validate signup form on keyup and submit
+		$("#regForm").validate({
+			rules: {
+				name: "required",
+				mobile: {
+					required: true,
+					minlength: 10,
+                    maxlength:15,
+                    digits:true
+				},
+                email: {
+                    required:true,
+                    email:true,
+                    remote: "check-email",
+                },
+                password: {
+					required: true,
+					minlength: 6
+				},
+
+			},
+			messages: {
+				name: "Please enter your name",
+				mobile: {
+					required: "Please enter your mobile number",
+					minlength: "Your number must consist of at least 10 characters",
+                    maxlength: "Your number not more than 15 characters",
+                    digits: "Your should be digits number",
+				},
+				password: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 6 characters long"
+				},
+				confirm_password: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 5 characters long",
+					equalTo: "Please enter the same password as above"
+				},
+				email: {
+                    required: "Please enter a  email address",
+                    email: "Please enter a valid email address",
+                    remote: "Your email is already exists"
+                 },
+			}
+		});
+
+        $("#loginForm").validate({
+			rules: {
+                email: {
+                    required:true,
+                    email:true,
+                },
+                password: {
+					required: true,
+					minlength: 6
+				},
+
+			},
+			messages: {
+				password: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 6 characters long"
+				},
+				email: {
+                    required: "Please enter a  email address",
+                    email: "Please enter a valid email address",
+                 },
+			}
+		});
+
 
 });

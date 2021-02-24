@@ -17,8 +17,17 @@
                         </ol>
                     </nav>
                 </div>
+
             </div>
         </div>
+        @if (Session :: has('error_message'))
+        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+            {{ Session:: get('error_message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
     </div>
     <!-- breadcrumb End -->
 
@@ -38,16 +47,9 @@
                             </button>
                         </div>
                         @endif
-                        @if (Session :: has('error_message'))
-                        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
-                            {{ Session:: get('error_message') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        @endif
+
                         <h6 class="title-font">Create A Account</h6>
-                        <form class="theme-form" action="{{ url('/register') }}" method="POST">
+                        <form id="regForm" class="theme-form" action="{{ url('/register') }}" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="name">Name</label>
@@ -73,18 +75,19 @@
                 <div class="col-lg-6 right-login">
                     <h3>Already Registered?</h3>
                     <div class="theme-card authentication-right">
-                        <h6 class="title-font">Create A Account</h6>
-
-                        <form class="theme-form">
+                        <h6 class="title-font">Login Here</h6>
+                        <form class="theme-form" id="loginForm" action="{{ route('login.user') }}" method="POST">
+                            @csrf
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="text" class="form-control" id="email" placeholder="Email" required="">
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Email" >
                             </div>
                             <div class="form-group">
                                 <label for="review">Password</label>
-                                <input type="password" class="form-control" id="review"
-                                    placeholder="Enter your password" required="">
-                            </div><a href="#" class="btn btn-solid">Login</a>
+                                <input type="password" name="password" class="form-control" id="password"
+                                    placeholder="Enter your password" >
+                            </div><button class="btn" type="submit">Login</button>
+
                             <a href="#" class="btn btn-solid">Forgot Password</a>
                         </form>
 
