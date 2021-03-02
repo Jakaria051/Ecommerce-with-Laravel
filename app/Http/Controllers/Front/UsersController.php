@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller
@@ -42,6 +43,12 @@ class UsersController extends Controller
                         $session_id = Session::get('session_id');
                         Cart::where('session_id', $session_id)->update(['user_id' => $user_id]);
                     }
+                    ///send email
+                    $email = $data['email'];
+                    $messageData = ['name' => $data['name'], 'email' => $data['email'], 'mobile' => $data['mobile']];
+                    Mail::send('emails.register_template', $messageData, function ($message) use ($email) {
+                        $message->to($email)->subject("Welcome to E-commerce Site");
+                    });
 
                     return redirect('t-shirts');
                 }
