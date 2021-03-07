@@ -20,6 +20,8 @@ class UsersController extends Controller
     public function registerUser(Request $request)
     {
         if ($request->isMethod('post')) {
+            Session::forget('error_message');
+            Session::forget('success_message');
             $data = $request->all();
             $userCount = User::where('email', $data['email'])->count();
             if ($userCount > 0) {
@@ -32,30 +34,75 @@ class UsersController extends Controller
                 $user->mobile = $data['mobile'];
                 $user->email = $data['email'];
                 $user->password = bcrypt($data['password']);
-                $user->status = 1;
+                $user->status = 0;
                 $user->save();
 
-                if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+                //Send Confirmation Mail
+                $email = $data['email'];
+                $messageData = [
+                    'email' => $data['email'],
+                    'name' => $data['name'],
+                    'code' => base64_encode($data['email'])
+                ];
 
-                    //update user cart
-                    if (!empty(Session::get('session_id'))) {
-                        $user_id = Auth::id();
-                        $session_id = Session::get('session_id');
-                        Cart::where('session_id', $session_id)->update(['user_id' => $user_id]);
-                    }
-                    ///send email
-                    $email = $data['email'];
-                    $messageData = ['name' => $data['name'], 'email' => $data['email'], 'mobile' => $data['mobile']];
-                    Mail::send('emails.register_template', $messageData, function ($message) use ($email) {
-                        $message->to($email)->subject("Welcome to E-commerce Site");
-                    });
+                Mail::send('emails.confirmation',$messageData,function($message) use ($email){
+                    $message->to($email)->subject('Confirm your e-commerce account');
+                });
 
-                    return redirect('t-shirts');
-                }
+                $message = "Please confirm your email to activate your account";
+                Session::put('success_message',$message);
+                return redirect()->back();
+
+                // if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+
+                //     //update user cart
+                //     if (!empty(Session::get('session_id'))) {
+                //         $user_id = Auth::id();
+                //         $session_id = Session::get('session_id');
+                //         Cart::where('session_id', $session_id)->update(['user_id' => $user_id]);
+                //     }
+                //     ///send email
+                //     $email = $data['email'];
+                //     $messageData = ['name' => $data['name'], 'email' => $data['email'], 'mobile' => $data['mobile']];
+                //     Mail::send('emails.register_template', $messageData, function ($message) use ($email) {
+                //         $message->to($email)->subject("Welcome to E-commerce Site");
+                //     });
+
+                //     return redirect('t-shirts');
+                // }
 
             }
         }
     }
+
+    public function confirmAccount($email)
+    {
+        Session::forget('error_message');
+            Session::forget('success_message');
+      $email = base64_decode($email);
+
+      $userCount = User::where('email',$email)->count();
+      if($userCount > 0)
+      {
+          $userDetails = User::where('email',$email)->first();
+          if($userDetails->status == 1){
+              $message = "Your Email account is already activated.Please login.";
+              Session::put('error_message',$message);
+              return redirect('login-register');
+          }else{
+              User::where('email',$email)->update(['status'=>1]);
+              $messageData = ['name' => $userDetails['name'], 'email' => $email, 'mobile' => $userDetails['mobile']];
+              Mail::send('emails.register_template', $messageData, function ($message) use ($email) {
+                $message->to($email)->subject("Welcome to E-commerce Site");
+             });
+
+             $message = "Your Email account is activated.Please login.";
+             Session::put('success_message',$message);
+             return redirect('login-register');
+          }
+      }
+    }
+
 
     public function checkEmail(Request $request)
     {
@@ -73,8 +120,21 @@ class UsersController extends Controller
     public function loginUser(Request $request)
     {
         if ($request->isMethod('post')) {
+            Session::forget('error_message');
+            Session::forget('success_message');
             $data = $request->all();
             if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+               //check email is activate or not
+               $userStatus = User::where('email',$data['email'])->first();
+               if($userStatus->status == 0)
+               {
+                   Auth::logout();
+                   $message = "Your account is not activated yet! Please confirm your mail to activate";
+                   Session::put('error_message',$message);
+                   return redirect()->back();
+               }
+
+
                 //update user cart
                 if (!empty(Session::get('session_id'))) {
                     $user_id = Auth::id();
@@ -90,9 +150,12 @@ class UsersController extends Controller
         }
     }
 
+
     public function logout()
     {
         Auth::logout();
         return redirect('/');
     }
+
+
 }

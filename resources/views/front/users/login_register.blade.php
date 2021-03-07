@@ -20,6 +20,14 @@
 
             </div>
         </div>
+        @if (Session :: has('success_message'))
+        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+            {{ Session:: get('success_message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
         @if (Session :: has('error_message'))
         <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
             {{ Session:: get('error_message') }}
@@ -39,14 +47,7 @@
                 <div class="col-lg-6">
                     <h3>New Customer</h3>
                     <div class="theme-card">
-                        @if (Session :: has('success_message'))
-                        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
-                            {{ Session:: get('success_message') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        @endif
+
 
                         <h6 class="title-font">Create A Account</h6>
                         <form id="regForm" class="theme-form" action="{{ url('/register') }}" method="POST">

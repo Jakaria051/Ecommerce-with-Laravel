@@ -119,6 +119,8 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::get('/logout','UsersController@logout');
         //validate email
         Route::match(['get','post'],'/check-email','UsersController@checkEmail');
+        //confirm Account
+        Route::match(['get','post'],'/confirm/{code}','UsersController@confirmAccount');
 
 
     });
