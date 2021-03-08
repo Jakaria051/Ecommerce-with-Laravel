@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="page-title">
-                        <h2>customer's login / register</h2>
+                        <h2>customer's login / register / Forgot Password</h2>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -45,29 +45,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h3>New Customer</h3>
+                    <h3>Forget Password</h3>
                     <div class="theme-card">
 
 
-                        <h6 class="title-font">Create A Account</h6>
-                        <form id="regForm" class="theme-form" action="{{ url('/register') }}" method="POST">
+                        <h3 class="title-font">Enter your mail to get the new password</h3>
+                        <form id="forgotPasswordForm" class="theme-form" action="{{ route('user.forgot.password') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
-                            </div>
-                            <div class="form-group">
-                                <label for="mobile">Mobile</label>
-                                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile ">
-                            </div>
-                            <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Enter password" >
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required="">
                             </div>
                             <button class="btn" type="submit">Create Your Account</button>
                         </form>

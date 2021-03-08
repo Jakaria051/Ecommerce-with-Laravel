@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+
 
 class UsersController extends Controller
 {
@@ -148,6 +150,46 @@ class UsersController extends Controller
                 return redirect()->back();
             }
         }
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $data = $request->all();
+            $emailCount = User::where('email',$data['email'])->count();
+            if($emailCount == 0)
+            {
+                $message = "Email does not exits";
+                Session::put('error_message',$message);
+                Session::forget('success_message');
+                return redirect()->back();
+            }else
+            {
+                $random_password = Str::random(8);
+                $new_password = bcrypt($random_password);
+                User::where('email',$data['email'])->update(['password'=>$new_password]);
+                $user_name = User::select('name')->where('email',$data['email'])->first();
+                $email = $data['email'];
+                $name = $user_name->name;
+                $messageData = [
+                    'email' => $email,
+                    'name'=>$name,
+                    'password'=>$random_password
+                ];
+
+                Mail::send('emails.forget_password',$messageData,function($message) use ($email){
+                    $message->to($email)->subject('New Password - E-commerce Website');
+                });
+
+                $message = "Please check your email for new password";
+                Session::put('success_message',$message);
+                Session::forget('error_message');
+                return redirect('login-register');
+
+            }
+        }
+        return view('front.users.forget_password');
     }
 
 
