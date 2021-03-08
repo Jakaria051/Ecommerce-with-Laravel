@@ -323,5 +323,25 @@ $(document).ready(function(){
 			}
 		});
 
+        $("#accountForm").validate({
+			rules: {
+				name: "required",
+				mobile: {
+					required: true,
+					minlength: 10,
+                    maxlength:15,
+                    digits:true
+				},
+			},
+			messages: {
+				name: "Please enter your name",
+				mobile: {
+					required: "Please enter your mobile number",
+					minlength: "Your number must consist of at least 10 characters",
+                    maxlength: "Your number not more than 15 characters",
+                    digits: "Your should be digits number",
+				},
+			}
+		});
 
 });

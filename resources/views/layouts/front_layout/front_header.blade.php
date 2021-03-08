@@ -26,7 +26,7 @@
                         <li class="onhover-dropdown mobile-account">
                             <i class="fa fa-user" aria-hidden="true"></i> My Account
                             <ul class="onhover-show-div">
-                                <li><a href="{{ url('my-account') }}" data-lng="es">My Account</a></li>
+                                <li><a href="{{ url('account') }}" data-lng="es">My Account</a></li>
                                 <li><a href="{{ url('logout') }}" data-lng="es">Logout</a></li>
                             </ul>
                         </li>

@@ -192,6 +192,49 @@ class UsersController extends Controller
         return view('front.users.forget_password');
     }
 
+    public function account(Request $request)
+    {
+        $user_id = Auth::id();
+        $userDetails = User::find($user_id)->toArray();
+
+        if($request->isMethod('post'))
+        {
+            Session::forget('error_message');
+            Session::forget('success_message');
+            $data = $request->all();
+
+            $rules = [
+                'name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'mobile' => 'required|numeric',
+               // 'image' => 'image'
+            ];
+            $custom_message = [
+                'name.required' => 'name is required',
+                'name.regex' => 'Valid name is required',
+                'mobile.required' => 'Mobile number is required',
+                'mobile.numeric' =>'Valid Mobile number is required',
+               // 'image.image' => 'Valid image is required'
+            ];
+            $this->validate($request,$rules,$custom_message);
+
+            $user = User::find($user_id);
+            $user->name = $data['name'];
+            $user->address = $data['address'];
+            $user->city = $data['city'];
+            $user->state = $data['state'];
+            $user->country = $data['country'];
+            $user->pincode = $data['pincode'];
+            $user->mobile = $data['mobile'];
+            $user->save();
+            $message = "Please account details have been updated";
+            Session::put('success_message', $message);
+            return redirect()->back();
+
+
+        }
+        return view('front.users.account',compact('userDetails'));
+    }
+
 
     public function logout()
     {

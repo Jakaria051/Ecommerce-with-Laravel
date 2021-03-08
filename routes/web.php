@@ -123,6 +123,8 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::match(['get','post'],'/confirm/{code}','UsersController@confirmAccount');
         //forgit password
         Route::match(['get','post'],'/forgot-password','UsersController@forgotPassword')->name('user.forgot.password');
+        // users Account
+        Route::match(['get','post'],'/account','UsersController@account');
 
 
     });
