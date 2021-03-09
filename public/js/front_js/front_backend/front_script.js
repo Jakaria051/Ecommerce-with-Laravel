@@ -217,6 +217,7 @@ $(document).ready(function(){
                 {
                     alert(resp.message);
                 }
+                $(".totalCartItem").html(resp.totalCartItem);
                 $("#AppendCartItems").html(resp.view);
             },error:function()
             {
@@ -242,6 +243,7 @@ $(document).ready(function(){
                 type:"post",
                 success:function(resp)
                 {
+                    $(".totalCartItem").html(resp.totalCartItem);
                     $("#AppendCartItems").html(resp.view);
                 },
                 error:function()

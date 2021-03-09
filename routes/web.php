@@ -113,7 +113,7 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::post('/delete-cart-item','ProductsController@deleteCartItem');
 
         //Login/Register
-        Route::get('/login-register','UsersController@loginRegister');
+        Route::get('/login-register',['as'=>'login','uses'=>'UsersController@loginRegister']);
         Route::post('/login','UsersController@loginUser')->name('login.user');
         Route::post('/register','UsersController@registerUser');
         Route::get('/logout','UsersController@logout');
@@ -123,8 +123,13 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::match(['get','post'],'/confirm/{code}','UsersController@confirmAccount');
         //forgit password
         Route::match(['get','post'],'/forgot-password','UsersController@forgotPassword')->name('user.forgot.password');
-        // users Account
-        Route::match(['get','post'],'/account','UsersController@account');
+
+      Route::group(['middleware'=>['auth']],function(){
+         // users Account
+         Route::match(['get','post'],'/account','UsersController@account');
+      });
+
+
 
 
     });

@@ -207,8 +207,10 @@ class ProductsController extends Controller
             $availableSize = ProductsAttribute::where(['product_id' => $cartDetails['product_id'], 'size' => $cartDetails['size'], 'status' => 1])->count();
             if ($availableSize == 0) {
                 $userCartItems = Cart::userCartItems();
+                $totalCartItems = totalCartItems();
                 return response()->json([
                     'status' => false,
+                    'totalCartItems' => $totalCartItems,
                     'message' => 'Product size is not available',
                     'view' => (String) View::make('front.products.cart_item', compact('userCartItems')),
                 ]);
@@ -230,7 +232,9 @@ class ProductsController extends Controller
             $data = $request->all();
             Cart::where('id', $data['cardid'])->delete();
             $userCartItems = Cart::userCartItems();
+            $totalCartItems = totalCartItems();
             return response()->json([
+                'totalCartItems' => $totalCartItems,
                 'view' => (String) View::make('front.products.cart_item', compact('userCartItems')),
             ]);
         }

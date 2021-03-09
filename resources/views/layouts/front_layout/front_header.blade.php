@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-lg-6 text-right">
                     <ul class="header-dropdown">
-                        <li class="mobile-wishlist"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                        <li class="mobile-wishlist"><a href="{{ url('cart') }}"><i class="fa fa-heart" aria-hidden="true"></i>[ <span class="totalCartItem"> {{ totalCartItems() }} </span>]</a>
                         </li>
                         @if (Auth::check())
                         <li class="onhover-dropdown mobile-account">

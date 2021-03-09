@@ -22,6 +22,7 @@ class UsersController extends Controller
     public function registerUser(Request $request)
     {
         if ($request->isMethod('post')) {
+
             Session::forget('error_message');
             Session::forget('success_message');
             $data = $request->all();
