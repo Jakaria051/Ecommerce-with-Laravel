@@ -162,6 +162,29 @@ $(document).ready(function(){
         })
     });
 
+    //coupon status
+    $(document).on("click",".updateCouponStatus",function(){
+        var status = $(this).children("i").attr("status");
+        let coupon_id = $(this).attr("coupon_id");
+        $.ajax({
+            type:'post',
+            url:'/admin/update-coupon-status',
+            data:{status:status,coupon_id:coupon_id},
+            success:function(resp){
+                if(resp['status']==0)
+                {
+                   $("#coupon-"+coupon_id).html("<i class='fas fa-toggle-off' status='Inactive'></i>");
+                }else if(resp['status']==1){
+                   $("#coupon-"+coupon_id).html("<i class='fas fa-toggle-on' status='Active'></i>");
+
+                }
+            },
+            error:function(resp){
+                alert(resp);
+            }
+        })
+    });
+
 
     //   $(".updateAttributeStatus").click(function(){
     //     alert("click");
@@ -267,7 +290,14 @@ $(document).ready(function(){
             x--;
         });
 
-        //
+        // show -hide coupon field automatic & hide
+        $("#ManualCoupon").on('click',function(){
+            $("#couponField").show();
+        });
+
+        $("#AutomaticCoupon").on('click',function(){
+            $("#couponField").hide();
+        });
 
 
 
