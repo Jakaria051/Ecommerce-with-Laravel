@@ -99,6 +99,8 @@
 
 
     });
+
+
   </script>
 <!-- ChartJS -->
 <script src="{{ url('plugins/chart.js/Chart.min.js') }}"></script>
@@ -111,6 +113,8 @@
 <script src="{{ url('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
 <!-- daterangepicker -->
 <script src="{{ url('plugins/moment/moment.min.js') }}"></script>
+<script src="{{ url('plugins/inputmask/min/jquery.inputmask.bundle.min.js') }}"></script>
+
 <script src="{{ url('plugins/daterangepicker/daterangepicker.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="{{ url('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
@@ -130,6 +134,8 @@
 <script src="{{ url('js/admin_js/admin_script.js') }}" ></script>
 {{-- sweet alert --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
 
 </body>
 </html>

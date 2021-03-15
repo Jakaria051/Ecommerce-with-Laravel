@@ -18,7 +18,7 @@ class CouponSeeder extends Seeder
         DB::table('coupons')->truncate();
         $couponRecords = [
             'coupon_option'=>'Manual','coupon_code'=>'test10','categories'=>'1,2',
-            'users'=>'jakariacse35@gmail.com,jacjakaria51@gmail.com','coupon_type'=>'single',
+            'users'=>'jakariacse35@gmail.com,jacjakaria51@gmail.com','coupon_type'=>'Single Times',
             'amount_type'=>'Percentage','amount'=>'10','expiry_date'=>'2021-05-15','status'=>1
         ];
 

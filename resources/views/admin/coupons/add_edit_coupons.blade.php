@@ -64,21 +64,15 @@
           <div class="card-body">
             <div class="row">
 
-              <div class="col-md-6">
+              <div class="col-sm-6">
                 <div class="form-group">
+                    @if (!isset($coupondata['coupon_code']))
+
                     <label for="title">Coupon Option</label> <br>
                     <input type="radio" name="coupon_option" id="AutomaticCoupon"
-                    @if (!empty($coupondata['coupon_option']))
-                    value="{{ $coupondata['coupon_option'] }}"
-                    @else
-                   value="Automatic"
-                    @endif>Automatic &nbsp;&nbsp;
+                   value="Automatic" checked="">Automatic &nbsp;&nbsp;
                     <input type="radio"  name="coupon_option" id="ManualCoupon"
-                    @if (!empty($coupondata['coupon_option']))
-                    value="{{ $coupondata['coupon_option'] }}"
-                    @else
-                   value="Manual"
-                    @endif>Manual &nbsp;&nbsp;
+                   value="Manual" >Manual &nbsp;&nbsp;
                   </div>
 
                 <div class="form-group" style="display: none;" id="couponField">
@@ -91,12 +85,23 @@
                     @endif>
                   </div>
 
+                  @else
+
+                  <div class="form-group" >
+                    <input type="hidden" name="coupon_option" value="{{ $coupondata['coupon_option'] }}">
+                    <input type="hidden" name="coupon_code" value="{{ $coupondata['coupon_code'] }}">
+                    <label for="coupon_code">Coupon Code: &nbsp;</label>
+                   <span>{{ $coupondata['coupon_code'] }}</span>
+                  </div>
+
+                  @endif
+
               </div>
 
 
 
 
-              <div class="col-md-6">
+              <div class="col-sm-6">
                 <div class="form-group">
                     <label for="alt">Select Categories</label>
                     <select name="categories[]" class="form-control select2" multiple>
@@ -104,12 +109,12 @@
                         @foreach ($categories as $section)
                          <optgroup label="{{ $section['name'] }}"></optgroup>
                              @foreach ($section['categories'] as $category)
-                                 <option value="{{ $category['id'] }}" @if(!empty(@old('category_id')) && $category['id'] == @old('category_id')) selected=""
-                                 @elseif(!empty($productdata['category_id']) &&  $productdata['category_id'] == $category['id']) selected=""
+                                 <option value="{{ $category['id'] }}" @if (in_array($category['id'],$selCats))
+                                 selected=""
                                  @endif>&nbsp;&nbsp;--&nbsp;&nbsp;{{ $category['category_name'] }}</option>
                                     @foreach ($category['subcategories'] as $subCategory)
-                                     <option value="{{ $subCategory['id'] }}" @if (!empty(@old('category_id')) && $subCategory['id'] == @old('category_id')) selected=""
-                                     @elseif(!empty($productdata['category_id']) &&  $productdata['category_id'] == $subCategory['id']) selected=""
+                                     <option value="{{ $subCategory['id'] }}" @if (in_array($subCategory['id'],$selCats))
+                                     selected=""
                                      @endif >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;{{ $subCategory['category_name'] }}</option>
                                     @endforeach
                                 @endforeach
@@ -119,30 +124,72 @@
 
 
                   <div class="form-group">
-                    <label for="image">Coupon Image</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="image" name="image">
-                        <label class="custom-file-label" for="image">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text" id="">Upload</span>
-                      </div>
-                    </div>
-                    <div>Recommended Image Size:(1140px,Heght:480px)</div>
+                    <label for="image">Select Users</label>
 
-                    @if (!empty($coupondata['image']))
-                    <div style="height: 100px;">
-                    <img style="width: 70px;margin-top:7px;" src="{{ asset('images/Coupon_images/'.$coupondata['image']) }}" alt="image-potion">
-                    &nbsp;
-                    <a class="confirmDelete" href="javascript:void(0)" record="coupon-image" recordId="{{ $coupondata['id'] }}" @php /*href="{{ url('admin/delete-category-image/'.$categorydata['id']) }}" */ @endphp >Delete Image</a>
-                    </div>
-                    @endif
+                    <select name="users[]" class="form-control select2" multiple data-live-search="true">
+                        <option value="">Select</option>
+                        @foreach ($users as $user)
+                        <option value="{{ $user['email'] }}" @if (in_array($user['email'],$selUsers))
+                        selected=""
+                        @endif>{{ $user['email'] }}</option>
+                        @endforeach
+                    </select>
                   </div>
 
               </div>
 
 
+              <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="title">Coupon Type</label> <br>
+                    <input type="radio" name="coupon_type" value="Multiple Times"
+                    @if (isset($coupondata['coupon_type']) && $coupondata['coupon_type'] == "Multiple Times")
+                   value="Multiple Times" checked="" @elseif(!isset($coupondata['coupon_type'])) checked=""
+                    @endif>Multiple Times &nbsp;&nbsp;
+                    <input type="radio"  name="coupon_type"  value="Single Times"
+                    @if (isset($coupondata['coupon_type']) && $coupondata['coupon_type'] == "Single Times")
+                    value="Single Times" checked=""
+                     @endif>Single Times &nbsp;&nbsp;
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="image">Amount Types</label> <br>
+                    <input type="radio" name="amount_type"  value="Percentage"
+                    @if (isset($coupondata['amount_type']) && $coupondata['amount_type'] == "Percentage") checked=""
+                    @elseif(!isset($coupondata['amount_type'])) checked=""
+                    @endif >Percentage(%) &nbsp;&nbsp;
+                    <input type="radio"  name="amount_type"  value="Fixed"
+                    @if (isset($coupondata['amount_type']) && $coupondata['amount_type'] == "Fixed") checked=""
+                    @endif> Fixed &nbsp;&nbsp;
+                  </div>
+                  <div class="form-group">
+                  <label for="coupon_code">Amount</label>
+                    <input type="text" class="form-control" name="amount" id="amount" placeholder="Enter amount"
+                    @if (!empty($coupondata['amount']))
+                    value="{{ $coupondata['amount'] }}"
+                    @else
+                   value="{{ old('amount') }}"
+                    @endif>
+                  </div>
+
+              </div>
+
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="coupon_code">Expiry Date</label>
+                    <input type="text" class="form-control" name="expiry_date" data-inputmask-alias="datetime" data-inputmask-inputformat="yyyy/mm/dd" placeholder="yyyy/mm/dd" data-mask
+                    @if (!empty($coupondata['expiry_date']))
+                    value="{{ $coupondata['expiry_date'] }}"
+                    @else
+                   value="{{ old('expiry_date') }}"
+                    @endif>
+                  </div>
+
+
+
+              </div>
 
             </div>
             <!-- /.end row -->
