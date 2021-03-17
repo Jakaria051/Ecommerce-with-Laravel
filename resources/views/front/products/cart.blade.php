@@ -51,6 +51,18 @@
                     </div>
                     {{-- end ajax --}}
 
+                    <form method="POST" action="javascript:void(0);" id="ApplyCoupon"  @if (Auth::check())
+                    data-user="1"
+                    @endif class="form-horizontal">
+                        @csrf
+                        <div class="control-group">
+                            <label for="" class="control-level"><strong>Coupon Code</strong></label>
+                            <div class="controls">
+                                <input name="code" id="code" type="text" class="input-medium" placeholder="Code" required="">
+                                <button type="submit" class="btn">Apply</button>
+                            </div>
+                        </div>
+                    </form>
 
                 </div>
             </div>

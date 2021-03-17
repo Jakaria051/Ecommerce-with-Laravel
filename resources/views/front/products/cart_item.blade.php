@@ -90,11 +90,17 @@
 <table class="table cart-table table-responsive-md">
     <tfoot>
         <tr>
-            <td>total price :</td>
-            <td>
-                <h2>${{ $total_price }}</h2> <br>
-                Grand Total : ${{ $total_price }}- $0 = Total
+            <td>Sub total : &nbsp; </td>
+            <td>${{ $total_price }}</td>
+        </tr>
+        <tr>
+            <td>Coupon discounts: &nbsp;</td>
+            <td>$0.0</td>
+        </tr>
+        <tr>
+            <td>Grand Total: &nbsp;
             </td>
+            <td>${{ $total_price }}- $0 = ${{ $total_price }}</td>
         </tr>
     </tfoot>
 </table>

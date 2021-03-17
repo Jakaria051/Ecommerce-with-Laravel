@@ -346,4 +346,30 @@ $(document).ready(function(){
 			}
 		});
 
+        $("#ApplyCoupon").submit(function(){
+            let user = $(this).data('user');
+            if(user == 1) {
+
+            }else {
+                alert("Please login to apply coupon");
+                return false;
+            }
+
+            let code = $("#code").val();
+            $.ajax({
+                type:'post',
+                data:{code:code},
+                url:'/apply-coupon',
+                success:function(resp) {
+                    if(resp.message != ""){
+                        alert(resp.message);
+                    }
+                    $(".totalCartItem").html(resp.totalCartItem);
+                    $("#AppendCartItems").html(resp.view);
+                },error:function(){
+                    alert("error");
+                }
+            });
+        });
+
 });
