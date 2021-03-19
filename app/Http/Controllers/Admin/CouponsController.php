@@ -91,7 +91,11 @@ class CouponsController extends Controller
             $coupondata->coupon_option = $data['coupon_option'];
             $coupondata->coupon_code = $coupon_code;
             $coupondata->categories = $categories;
+            if(isset($users) && !empty($users)) {
             $coupondata->users = $users;
+            }else{
+                $coupondata->users = null;
+            }
             $coupondata->coupon_type = $data['coupon_type'];
             $coupondata->amount_type = $data['amount_type'];
             $coupondata->amount = $data['amount'];

@@ -137,6 +137,8 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
          Route::match(['get','post'],'/account','UsersController@account');
          //coupon
          Route::post('/apply-coupon','ProductsController@applyCoupon');
+         //checkout
+         Route::match(['get','post'],'/checkout','ProductsController@checkout');
 
       });
 

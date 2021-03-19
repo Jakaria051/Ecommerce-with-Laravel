@@ -272,32 +272,58 @@ class ProductsController extends Controller
                 }
                 //check is product from selected coupon categories
                 $catArr = explode(",",$couponDetails->categories);
-                foreach($userCartItems as $key => $items)
-                {
-                    if(!in_array($items['product']['category_id'],$catArr)){
-                        $message = "The Coupon code is not for one which you selected";
-                    }
-                }
 
                 //check selected users for coupon
 
-                $userArr = explode(",",$couponDetails->users);
-                foreach($userArr as $key => $user) {
-                    $getUserID = User::select('id')->where('email',$user)->first()->toArray();
-                    $userID[] = $getUserID['id'];
+                if(!empty($couponDetails->users)) {
+                    $userArr = explode(",",$couponDetails->users);
+                    foreach($userArr as $key => $user) {
+                        $getUserID = User::select('id')->where('email',$user)->first()->toArray();
+                        $userID[] = $getUserID['id'];
+                    }
                 }
 
+
+                $total_amount = 0;
                 foreach($userCartItems as $key => $item) {
+
+                    if(!in_array($item['product']['category_id'],$catArr)){
+                        $message = "The Coupon code is not for you. which you selected";
+                    }
+
+                    if(!empty($couponDetails->users)) {
                     if(!in_array($item['user_id'],$userID)) {
                         $message = "The Coupon Code is not for you";
                     }
+                   }
+                    $attrPrice = Product::getDiscountAttrPrice($item['product_id'],$item['size']);
+                    $total_amount = $total_amount + ($attrPrice['final_price'] * $item['quantity']);
+
                 }
                 if(isset($message)) {
                     return response()->json(['status'=>false,'message'=>$message,
                     'totalCartItems' => $totalCartItems,
                     'view'=>(String) View::make('front.products.cart_item',compact('userCartItems'))
                     ]);
+                }else{
+                    if($couponDetails->amount_type == "Fixed") {
+                        $couponAmount = $couponDetails->amount;
+                    }else {
+                        $couponAmount = $total_amount * ($couponDetails->amount/100);
+                    }
+
+                    $grand_total = $total_amount - $couponAmount;
+                    Session::put('couponAmount',$couponAmount);
+                    Session::put('couponCode',$data['code']);
+                    $message = "Coupon code is successfully applied.you are now availing discount";
+                    return response()->json(['status'=>true,
+                    'message'=>$message,
+                    'totalCartItems' => $totalCartItems,
+                    'couponAmount' => $couponAmount,
+                    'grand_total' => $grand_total,
+                    'view'=>(String)View::make('front.products.cart_item',compact('userCartItems'))]);
                 }
+
             }
         }
     }

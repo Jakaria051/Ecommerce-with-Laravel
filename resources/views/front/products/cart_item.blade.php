@@ -95,12 +95,18 @@
         </tr>
         <tr>
             <td>Coupon discounts: &nbsp;</td>
-            <td>$0.0</td>
+            <td class="couponAmount">
+                @if (Session::has('couponAmount'))
+                ${{ Session::get('couponAmount') }}
+                @else
+                $0.0
+                @endif
+            </td>
         </tr>
         <tr>
             <td>Grand Total: &nbsp;
             </td>
-            <td>${{ $total_price }}- $0 = ${{ $total_price }}</td>
+            <td>( <span>${{ $total_price }}</span> - <span class="couponAmount">$0</span> ) <br><strong id="grandTotal">${{ $total_price }}</strong></td>
         </tr>
     </tfoot>
 </table>

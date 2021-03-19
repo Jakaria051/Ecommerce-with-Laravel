@@ -366,6 +366,14 @@ $(document).ready(function(){
                     }
                     $(".totalCartItem").html(resp.totalCartItem);
                     $("#AppendCartItems").html(resp.view);
+                    if(resp.couponAmount >= 0){
+                        $(".couponAmount").text("$"+resp.couponAmount);
+                    }else {
+                        $(".couponAmount").text("$ 0");
+                    }
+                    if(resp.grand_total >= 0) {
+                        $("#grandTotal").text("$"+resp.grand_total);
+                    }
                 },error:function(){
                     alert("error");
                 }
