@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Cart;
 use App\Category;
 use App\Coupon;
+use App\DeliveryAddress;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\ProductsAttribute;
@@ -326,5 +327,13 @@ class ProductsController extends Controller
 
             }
         }
+    }
+
+
+    public function checkout()
+    {
+        $userCartItems = Cart::userCartItems();
+        $deliveryAddressses = DeliveryAddress::deliveryAddressses();
+        return view('front.products.checkout',compact('userCartItems','deliveryAddressses'));
     }
 }
