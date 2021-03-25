@@ -23,7 +23,7 @@ use App\Product;
 {{-- start Form --}}
 
 
-    
+
                  @if (isset($deliveryAddressses) && !empty($deliveryAddressses))
 
                @foreach ($deliveryAddressses as $address)
@@ -72,7 +72,7 @@ use App\Product;
                     </div>
                     @endif
 
- 
+
 
 
                     <table class="table cart-table table-responsive-xs">
@@ -193,8 +193,8 @@ use App\Product;
                             <label for="" class="control-level"><strong>Payment Methods</strong></label>
                             <div class="controls">
                               <span>
-                                  <input type="radio" name="payment_method" id="COD" value="COD"><Strong>&nbsp; COD</Strong> &nbsp;&nbsp;
-                                  <input type="radio" name="payment_method" id="Paypal" value="Paypal"><Strong>&nbsp; Paypal</Strong>
+                                  <input type="radio" name="payment_gateway" id="COD" value="COD"><Strong>&nbsp; COD</Strong> &nbsp;&nbsp;
+                                  <input type="radio" name="payment_gateway" id="Paypal" value="Paypal"><Strong>&nbsp; Paypal</Strong>
                               </span>
                             </div>
                         </div>
@@ -210,7 +210,7 @@ use App\Product;
 
     </form>
 
-    
+
     </section>
     <!--section end-->
 

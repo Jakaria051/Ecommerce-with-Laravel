@@ -7,12 +7,15 @@ use App\Category;
 use App\Coupon;
 use App\DeliveryAddress;
 use App\Http\Controllers\Controller;
+use App\Order;
+use App\OrdersProduct;
 use App\Product;
 use App\ProductsAttribute;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -340,13 +343,85 @@ class ProductsController extends Controller
                 Session::flash('error_message', $message);
                 return redirect()->back();
             }
-            if(empty($data['payment_method'])) {
+            if(empty($data['payment_gateway'])) {
                 $message = "Please select delivery method";
                 Session::flash('error_message', $message);
                 return redirect()->back();
             }
-           echo Session::get('grand_total');
-            dd($request->all());
+          // echo Session::get('grand_total');
+             if($data['payment_gateway'] == "COD") {
+                 $payment_method = "COD";
+             }else {
+                 $payment_method = "Prepaid";
+             }
+
+             //Get delivery address from addressId
+
+             $deliveryAddress = DeliveryAddress::where('id',$data['address_id'])->first()->toArray();
+             //Insert Order details
+            DB::beginTransaction();
+             $order = new Order();
+             $order->user_id = Auth::id();
+             $order->name = $deliveryAddress['name'];
+             $order->address = $deliveryAddress['address'];
+             $order->city = $deliveryAddress['city'];
+             $order->state = $deliveryAddress['state'];
+             $order->country = $deliveryAddress['country'];
+             $order->pincode = $deliveryAddress['pincode'];
+             $order->mobile = $deliveryAddress['mobile'];
+             $order->email = Auth::user()->email;
+             $order->shipping_charges = 0;
+             $order->coupon_code = Session::get('couponCode');
+             $order->coupon_amount = Session::get('couponAmount');
+             $order->order_status = "New";
+             $order->payment_method = $payment_method;
+             $order->payment_gateway = $data['payment_gateway'];
+             $order->grand_total = Session::get('grand_total');
+             $order->save();
+
+             //last id
+             $order_id = DB::getPdo()->lastInsertId();
+
+             $cartItms = Cart::where('user_id',Auth::id())->get()->toArray();
+             foreach($cartItms as $key => $item) {
+                 $cartItem = new OrdersProduct();
+                 $cartItem->order_id = $order_id;
+                 $cartItem->user_id = Auth::id();
+
+                 $getProductDetails = Product::select('product_code','product_name',
+                 'product_color')->where('id',$item['product_id'])->first()->toArray();
+
+                 $cartItem->product_id = $item['product_id'];
+                 $cartItem->product_code = $getProductDetails['product_code'];
+                 $cartItem->product_name = $getProductDetails['product_name'];
+                 $cartItem->product_color = $getProductDetails['product_color'];
+                 $cartItem->product_size = $item['size'];
+
+                 $getDiscountedPrice = Product::getDiscountAttrPrice($item['product_id'],$item['size']);
+
+                 $cartItem->product_price = $getDiscountedPrice['final_price'];
+                 $cartItem->product_qty = $item['quantity'];
+
+                 $cartItem->save();
+             }
+
+             Cart::where('user_id',Auth::id())->delete();
+
+             Session::put('order_id',$order_id);
+
+             DB::commit();
+
+             if($data['payment_gateway'] == "COD") {
+                return redirect('/thanks');
+            }else {
+                echo "Payment Method comming soon...";
+                die;
+            }
+
+
+
+
+
         }
         $userCartItems = Cart::userCartItems();
         $deliveryAddressses = DeliveryAddress::deliveryAddressses();
@@ -410,5 +485,14 @@ class ProductsController extends Controller
         }
 
         return view('front.products.add_edit_delivery_address',compact('countries','title','address'));
+    }
+
+
+    public function thanksPage() {
+        if(Session::has('order_id')) {
+            return view('front.products.thanks');
+        }else {
+            return redirect('/cart');
+        }
     }
 }

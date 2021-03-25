@@ -142,6 +142,8 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
 
          //delivery address
          Route::match(['get','post'],'/add-edit-delivery-address/{id?}','ProductsController@addEditDeliveryAddress');
+         //thanks
+         Route::get('/thanks','ProductsController@thanksPage');
 
       });
 
