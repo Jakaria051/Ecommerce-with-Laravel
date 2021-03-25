@@ -106,7 +106,7 @@
         <tr>
             <td>Grand Total: &nbsp;
             </td>
-            <td>( <span>${{ $total_price }}</span> - <span class="couponAmount">$0</span> ) <br><strong id="grandTotal">${{ $total_price }}</strong></td>
+            <td>( <span>${{ $total_price }}</span> - <span class="couponAmount">${{ Session::get('couponAmount') }}</span> ) <br><strong id="grandTotal">${{ $total_price - Session::get('couponAmount') }}</strong></td>
         </tr>
     </tfoot>
 </table>

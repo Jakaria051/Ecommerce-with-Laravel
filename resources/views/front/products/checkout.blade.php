@@ -6,6 +6,10 @@ use App\Product;
 @section('content')
     <!--section start-->
     <section class="cart-section section-b-space">
+
+        <form  id="checkoutForm" name="checkoutForm" action="{{ url('/checkout') }}" method="POST">
+            @csrf
+
         <div class="container">
 
             <div class="row mt-5 mb-5">
@@ -13,8 +17,13 @@ use App\Product;
 
             <div class="col-lg-6 col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xs-12">
              <table class="table table-bordered">
-                 <tr><th>Delivery Address</th></tr>
+                 <tr><th><strong>Delivery Address</strong> | <a href="{{ url('add-edit-delivery-address') }}" >Add</a> </th>
+                <td><a href="">Edit</a> | <a href="">Delete</a></td>
+                </tr>
+{{-- start Form --}}
 
+
+    
                  @if (isset($deliveryAddressses) && !empty($deliveryAddressses))
 
                @foreach ($deliveryAddressses as $address)
@@ -63,7 +72,8 @@ use App\Product;
                     </div>
                     @endif
 
-                    {{-- start ajax --}}
+ 
+
 
                     <table class="table cart-table table-responsive-xs">
                         <thead>
@@ -162,7 +172,13 @@ use App\Product;
                             <tr>
                                 <td>Grand Total: &nbsp;
                                 </td>
-                                <td>( <span>${{ $total_price }}</span> - <span class="couponAmount">$0</span> ) <br><strong id="grandTotal">${{ $total_price }}</strong></td>
+                                <td>( <span>${{ $total_price }}</span> - <span class="couponAmount">${{ Session::get('couponAmount') }}</span> ) <br>
+                                    <strong id="grandTotal">${{ $grand_total = $total_price - Session::get('couponAmount') }}
+                                    @php
+                                        Session::put('grand_total',$grand_total);
+                                    @endphp
+                                    </strong></td>
+
                             </tr>
                         </tfoot>
                     </table>
@@ -176,7 +192,10 @@ use App\Product;
                         <div class="control-group">
                             <label for="" class="control-level"><strong>Payment Methods</strong></label>
                             <div class="controls">
-                                //TODO ......
+                              <span>
+                                  <input type="radio" name="payment_method" id="COD" value="COD"><Strong>&nbsp; COD</Strong> &nbsp;&nbsp;
+                                  <input type="radio" name="payment_method" id="Paypal" value="Paypal"><Strong>&nbsp; Paypal</Strong>
+                              </span>
                             </div>
                         </div>
                     </form>
@@ -185,9 +204,13 @@ use App\Product;
             </div>
             <div class="row cart-buttons">
                 <div class="col-6"><a href="{{ url('/cart') }}" class="btn btn-solid">Back to Cart</a></div>
-                <div class="col-6"><a href="#" class="btn btn-solid">Place Order</a></div>
+                <div class="col-6"><button type="submit" href="#" class="btn btn-solid">Place Order</button></div>
             </div>
         </div>
+
+    </form>
+
+    
     </section>
     <!--section end-->
 

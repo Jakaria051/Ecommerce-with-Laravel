@@ -330,10 +330,85 @@ class ProductsController extends Controller
     }
 
 
-    public function checkout()
+    public function checkout(Request $request)
     {
+        if($request->isMethod('post')) {
+            $data = $request->all();
+
+            if(empty($data['address_id'])) {
+                $message = "Please Select delivery address";
+                Session::flash('error_message', $message);
+                return redirect()->back();
+            }
+            if(empty($data['payment_method'])) {
+                $message = "Please select delivery method";
+                Session::flash('error_message', $message);
+                return redirect()->back();
+            }
+           echo Session::get('grand_total');
+            dd($request->all());
+        }
         $userCartItems = Cart::userCartItems();
         $deliveryAddressses = DeliveryAddress::deliveryAddressses();
         return view('front.products.checkout',compact('userCartItems','deliveryAddressses'));
+    }
+
+
+    public function addEditDeliveryAddress($id = null, Request $request) {
+        if($id == "") {
+            $title = "Add Delivery Address";
+            $address = new DeliveryAddress();
+            $message = "Address Added Successfully";
+        }else {
+            $title = "Edit Delivery Address";
+            $message = "Address Updated Successfully";
+        }
+
+        $countries = [
+            "Bangladesh","Nepal","India"
+        ];
+
+        if($request->isMethod('post'))
+        {
+            Session::forget('error_message');
+            Session::forget('success_message');
+            $data = $request->all();
+
+            $rules = [
+                'name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'mobile' => 'required|numeric|digits:10',
+                'address' => 'required',
+                'city' => 'required',
+                'country' => 'required',
+                'pincode' => 'required|numeric|digits:10',
+                'state' => 'required',
+               // 'image' => 'image'
+            ];
+            $custom_message = [
+                'name.required' => 'name is required',
+                'name.regex' => 'Valid name is required',
+                'mobile.required' => 'Mobile number is required',
+                'mobile.numeric' =>'Valid Mobile number is required',
+               // 'image.image' => 'Valid image is required'
+            ];
+            $this->validate($request,$rules,$custom_message);
+
+            $address->user_id = Auth::id();
+            $address->name = $data['name'];
+            $address->address = $data['address'];
+            $address->city = $data['city'];
+            $address->state = $data['state'];
+            $address->country = $data['country'];
+            $address->pincode = $data['pincode'];
+            $address->mobile = $data['mobile'];
+            $address->status = 1;
+            $address->save();
+            Session::put('success_message', $message);
+            return redirect('checkout');
+
+
+        }
+
+        return view('front.products.add_edit_delivery_address',compact('countries','title','address'));
     }
 }

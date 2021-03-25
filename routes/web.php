@@ -140,6 +140,9 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
          //checkout
          Route::match(['get','post'],'/checkout','ProductsController@checkout');
 
+         //delivery address
+         Route::match(['get','post'],'/add-edit-delivery-address/{id?}','ProductsController@addEditDeliveryAddress');
+
       });
 
 

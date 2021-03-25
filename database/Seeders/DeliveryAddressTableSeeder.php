@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\DeliveryAddress;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DeliveryAddressTableSeeder extends Seeder
 {
@@ -14,6 +15,7 @@ class DeliveryAddressTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('delivery_addresses')->truncate();
         $deliveryRecords = [
             [
                 'id'=>1,'user_id'=>1,'name'=>'Jakaria','address'=>'Test 123',
