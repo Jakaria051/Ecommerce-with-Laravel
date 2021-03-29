@@ -22,6 +22,8 @@
                     <ul class="header-dropdown">
                         <li class="mobile-wishlist"><a href="{{ url('cart') }}"><i class="fa fa-heart" aria-hidden="true"></i>[ <span class="totalCartItem"> {{ totalCartItems() }} </span>]</a>
                         </li>
+                        <li class="order-list"><a href="{{ url('orders') }}">Order</a>
+                        </li>
                         @if (Auth::check())
                         <li class="onhover-dropdown mobile-account">
                             <i class="fa fa-user" aria-hidden="true"></i> My Account

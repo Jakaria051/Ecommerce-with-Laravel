@@ -455,7 +455,7 @@ class ProductsController extends Controller
                 'address' => 'required',
                 'city' => 'required',
                 'country' => 'required',
-                'pincode' => 'required|numeric|digits:10',
+                'pincode' => 'required',
                 'state' => 'required',
                // 'image' => 'image'
             ];

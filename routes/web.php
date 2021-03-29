@@ -135,6 +135,12 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
       Route::group(['middleware'=>['auth']],function(){
          // users Account
          Route::match(['get','post'],'/account','UsersController@account');
+         ///orders
+         Route::get('/orders','OrdersController@orders');
+         //order details
+         Route::get('/orders/{id}','OrdersController@orderDetails');
+
+
          //coupon
          Route::post('/apply-coupon','ProductsController@applyCoupon');
          //checkout
