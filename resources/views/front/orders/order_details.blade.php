@@ -6,13 +6,15 @@ use Illuminate\Support\Facades\Session;
 @extends('layouts.front_layout.front_layout')
 @section('content')
     <!--section start-->
-    <section class="cart-section section-b-space">
+
+     <div class="row">
+
         <div class="container">
-        <div class="span9" align="center">
+
             <h3>Orders</h3>
             <hr>
-            <div class="row" >
-                <div class="span4" align="center">
+
+                <div class="span4" >
                     <table class="table table-striped table bordered">
                         <tr>
                             <td colspan="2"> <Strong>Order Details</Strong></td>
@@ -52,10 +54,10 @@ use Illuminate\Support\Facades\Session;
 
                     </table>
                 </div>
-            </div>
 
-            <div class="row" >
-                <div class="span4" align="center">
+
+
+                <div class="span4" >
                     <table class="table table-striped table bordered">
                         <tr>
                             <td colspan="2"> <Strong>Delivery Address</Strong></td>
@@ -93,14 +95,15 @@ use Illuminate\Support\Facades\Session;
 
                     </table>
                 </div>
-            </div>
+
 
 
             <hr>
-            <div class="row" >
+
                 <div class="span8" align="center">
                     <table class="table table-striped table bordered">
                         <tr>
+                            <th>Product Image</th>
                             <th>Product Code</th>
                             <th>Product Name</th>
                             <th>Product Size</th>
@@ -110,6 +113,13 @@ use Illuminate\Support\Facades\Session;
                         </tr>
                         @foreach ($orderDetails['order_products'] as $product)
                         <tr>
+                        <td>
+                            @php
+                                $getProductImage = Product::getProductImage($product['product_id']);
+                            @endphp
+                            <a href="{{ url('product/'.$product['product_id']) }}">
+                            <img style="width: 80px;" src="{{ asset('images/product_images/small/'.$getProductImage) }}" alt=""></a>
+                        </td>
                         <td>{{ data_get($product,'product_code') }}</td>
                         <td>{{ data_get($product,'product_name') }}</td>
 
@@ -120,14 +130,13 @@ use Illuminate\Support\Facades\Session;
                         @endforeach
                     </table>
                 </div>
-            </div>
+
+
 
         </div>
 
     </div>
 
-    </section>
-    <!--section end-->
 
 @endsection
 
