@@ -145,70 +145,81 @@ use Illuminate\Support\Facades\Session;
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Simple Full Width Table</h3>
-
-                  <div class="card-tools">
-                    <ul class="pagination pagination-sm float-right">
-                      <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                  </div>
+                  <h3 class="card-title">Customer Details</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
-                  <table class="table">
+                    <table class="table table-sm">
+                      <thead>
+
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td colspan="2"> <Strong>Customer Details</Strong></td>
+                          </tr>
+                          <tr>
+                              <td>Name</td>
+                              <td>{{ data_get($userDetails,'name') }}</td>
+                          </tr>
+
+                          <tr>
+                              <td>Email</td>
+                              <td>{{ data_get($userDetails,'email') }}</td>
+                          </tr>
+
+
+                      </tbody>
+                    </table>
+                  </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Billing Adress</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                  <table class="table table-sm">
                     <thead>
-                      <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Task</th>
-                        <th>Progress</th>
-                        <th style="width: 40px">Label</th>
-                      </tr>
+
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1.</td>
-                        <td>Update software</td>
-                        <td>
-                          <div class="progress progress-xs">
-                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                          </div>
-                        </td>
-                        <td><span class="badge bg-danger">55%</span></td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td>Clean database</td>
-                        <td>
-                          <div class="progress progress-xs">
-                            <div class="progress-bar bg-warning" style="width: 70%"></div>
-                          </div>
-                        </td>
-                        <td><span class="badge bg-warning">70%</span></td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td>Cron job running</td>
-                        <td>
-                          <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-primary" style="width: 30%"></div>
-                          </div>
-                        </td>
-                        <td><span class="badge bg-primary">30%</span></td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Fix and squish bugs</td>
-                        <td>
-                          <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-success" style="width: 90%"></div>
-                          </div>
-                        </td>
-                        <td><span class="badge bg-success">90%</span></td>
-                      </tr>
+                        <tr>
+                            <td colspan="2"> <Strong>Billing Address</Strong></td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>{{ data_get($userDetails,'name') }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Address</td>
+                            <td>{{ data_get($userDetails,'address') }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>City</td>
+                            <td>{{ data_get($userDetails,'city') }}</td>
+                        </tr>
+                        <tr>
+                            <td>State</td>
+                            <td>{{ data_get($userDetails,'state') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Country</td>
+                            <td>{{ data_get($userDetails,'country') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Pincode</td>
+                            <td>{{ data_get($userDetails,'pincode') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mobile</td>
+                            <td>{{ data_get($userDetails,'mobile') }}</td>
+                        </tr>
+
                     </tbody>
                   </table>
                 </div>
@@ -218,66 +229,51 @@ use Illuminate\Support\Facades\Session;
 
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Striped Full Width Table</h3>
+                  <h3 class="card-title">Update Order Status</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
-                  <table class="table table-striped">
+                  <table class="table table-sm">
                     <thead>
-                      <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Task</th>
-                        <th>Progress</th>
-                        <th style="width: 40px">Label</th>
-                      </tr>
+                        @if (Session :: has('success_message'))
+                        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                            {{ Session:: get('success_message') }}
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        {{  Session::forget('success_message') }}
+                        @endif
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1.</td>
-                        <td>Update software</td>
-                        <td>
-                          <div class="progress progress-xs">
-                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                          </div>
-                        </td>
-                        <td><span class="badge bg-danger">55%</span></td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td>Clean database</td>
-                        <td>
-                          <div class="progress progress-xs">
-                            <div class="progress-bar bg-warning" style="width: 70%"></div>
-                          </div>
-                        </td>
-                        <td><span class="badge bg-warning">70%</span></td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td>Cron job running</td>
-                        <td>
-                          <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-primary" style="width: 30%"></div>
-                          </div>
-                        </td>
-                        <td><span class="badge bg-primary">30%</span></td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Fix and squish bugs</td>
-                        <td>
-                          <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-success" style="width: 90%"></div>
-                          </div>
-                        </td>
-                        <td><span class="badge bg-success">90%</span></td>
-                      </tr>
+                        <tr>
+                            <td colspan="2"> <Strong>Update Order Status</Strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <form action="{{ url('admin/update-order-status') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="order_id" value="{{ $orderDetails['id'] }}">
+                                <select class="form-group" name="order_status" required="">
+                                   @foreach ($orderStatuses as $status)
+                                   <option value="{{ $status['name'] }}" @if (isset($orderDetails['order_status']) && $orderDetails['order_status'] == $status['name'])
+                                   selected=""
+                                   @endif >{{ $status['name'] }}</option>
+                                   @endforeach
+                                </select>
+                                &nbsp; <button type="submit">Update</button>
+
+                            </form>
+
+                            </td>
+                        </tr>
+
+
                     </tbody>
                   </table>
                 </div>
                 <!-- /.card-body -->
               </div>
-              <!-- /.card -->
             </div>
             <!-- /.col -->
           </div>

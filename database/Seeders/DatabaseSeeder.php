@@ -3,6 +3,7 @@
 use App\DeliveryAddress;
 use Database\Seeders\CouponSeeder;
 use Database\Seeders\DeliveryAddressTableSeeder;
+use Database\Seeders\OrderStatusTableSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,9 +22,10 @@ class DatabaseSeeder extends Seeder
        // $this->call(ProductsAttributesTableSeeder::class);
        // $this->call(ProductsImagesTableSeeder::class);
        // $this->call(BrandsTableSeeder::class);
-        $this->call(BannersTableSeeder::class);
-        $this->call(CouponSeeder::class);
-        $this->call(DeliveryAddressTableSeeder::class);
+       // $this->call(BannersTableSeeder::class);
+       // $this->call(CouponSeeder::class);
+       // $this->call(DeliveryAddressTableSeeder::class);
+        $this->call(OrderStatusTableSeeder::class);
 
     }
 }
