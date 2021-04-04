@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -412,6 +413,23 @@ class ProductsController extends Controller
              DB::commit();
 
              if($data['payment_gateway'] == "COD") {
+                 //Send order details by mail
+                 $message = "Dear Customer,your order".$order_id."has been successfully
+                 placed.we will intimate you once your is shipped";
+
+                 $orderDetails = Order::with('order_products')->where('id',$order_id)->first()->toArray();
+                 $userDetails = User::where('id',$orderDetails['user_id'])->first()->toArray();
+                 $email = Auth::user()->email;
+                 $messageData = [
+                     'email'=>$email,
+                     'name'=>Auth::user()->name,
+                     'order_id'=>$order_id,
+                     'orderDetails' => $orderDetails
+                 ];
+
+                 Mail::send('emails.order', $messageData, function ($message) use($email) {
+                     $message->to($email)->subject('Order Placed');
+                 });
                 return redirect('/thanks');
             }else {
                 echo "Payment Method comming soon...";
