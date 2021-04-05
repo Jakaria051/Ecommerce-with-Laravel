@@ -261,8 +261,10 @@ use Illuminate\Support\Facades\Session;
                                    @endif >{{ $status['name'] }}</option>
                                    @endforeach
                                 </select>&nbsp;<br>
-                                <input style="width: 120px" type="text" name="courier_name" id="courier_name" placeholder="Courier Name">
-                                <input style="width: 120px" type="text" name="tracking_number" id="tracking_number" placeholder="Tracking Number">
+                                <input style="width: 120px" type="text" name="courier_name" @if (empty($orderDetails['courier_name']))
+                                id="courier_name" @endif placeholder="Courier Name"  value="{{ $orderDetails['courier_name'] }}">
+                                <input style="width: 120px" type="text" name="tracking_number" @if (empty($orderDetails['tracking_number']))
+                                id="tracking_number" @endif   placeholder="Tracking Number" value="{{ $orderDetails['tracking_number'] }}">
 
                                 &nbsp; <button type="submit">Update</button>
 

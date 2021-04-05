@@ -14,8 +14,8 @@ class UpdateOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function ($table) {
-            $table->string('courier_name')->default('abc')->after('grand_total');
-            $table->string('tracking_number')->default('123')->after('courier_name');
+            $table->string('courier_name')->default('-')->after('grand_total');
+            $table->string('tracking_number')->default('-')->after('courier_name');
         });
     }
 

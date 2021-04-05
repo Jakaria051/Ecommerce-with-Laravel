@@ -27,7 +27,18 @@ use Illuminate\Support\Facades\Session;
                             <td>Order Status</td>
                             <td>{{ data_get($orderDetails,'order_status') }}</td>
                         </tr>
-
+                        @if (!empty($orderDetails['courier_name']))
+                        <tr>
+                            <td>Courier Name</td>
+                            <td>{{ data_get($orderDetails,'courier_name') }}</td>
+                        </tr>
+                        @endif
+                        @if (!empty($orderDetails['tracking_number']))
+                        <tr>
+                            <td>Tracking Number</td>
+                            <td>{{ data_get($orderDetails,'tracking_number') }}</td>
+                        </tr>
+                        @endif
                         <tr>
                             <td>Order Total</td>
                             <td>${{ data_get($orderDetails,'grand_total') }}</td>
