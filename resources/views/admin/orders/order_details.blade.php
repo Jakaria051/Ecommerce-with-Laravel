@@ -254,17 +254,31 @@ use Illuminate\Support\Facades\Session;
                                 <form action="{{ url('admin/update-order-status') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $orderDetails['id'] }}">
-                                <select class="form-group" name="order_status" required="">
+                                <select class="form-group" name="order_status" id="order_status" required="">
                                    @foreach ($orderStatuses as $status)
                                    <option value="{{ $status['name'] }}" @if (isset($orderDetails['order_status']) && $orderDetails['order_status'] == $status['name'])
                                    selected=""
                                    @endif >{{ $status['name'] }}</option>
                                    @endforeach
-                                </select>
+                                </select>&nbsp;<br>
+                                <input style="width: 120px" type="text" name="courier_name" id="courier_name" placeholder="Courier Name">
+                                <input style="width: 120px" type="text" name="tracking_number" id="tracking_number" placeholder="Tracking Number">
+
                                 &nbsp; <button type="submit">Update</button>
 
                             </form>
 
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                @foreach ($orderLog as $log)
+                                <strong>{{   data_get($log,'order_status') }}</strong><br>
+                                {{  date('F j, Y, g:i a',strtotime($log['created_at'] )) }}
+                                <br>
+                                <hr>
+                                @endforeach
                             </td>
                         </tr>
 

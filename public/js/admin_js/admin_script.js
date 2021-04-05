@@ -308,8 +308,20 @@ $(document).ready(function(){
     //Money Euro
     $('[data-mask]').inputmask()
 
+    ///Order status
+    $("#courier_name").hide();
+    $("#tracking_number").hide();
 
+    $("#order_status").on("change",function(){
+       // alert(this.value);
+       if(this.value == "Shipped") {
+        $("#courier_name").show();
+        $("#tracking_number").show();
+       }else{
+        $("#courier_name").hide();
+        $("#tracking_number").hide();
+       }
 
-
+    });
 
 });

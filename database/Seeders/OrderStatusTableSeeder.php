@@ -34,7 +34,7 @@ class OrderStatusTableSeeder extends Seeder
                 'name'=>'Paid','status'=>1
             ],
             [
-                'name'=>'Shift','status'=>1
+                'name'=>'Shipped','status'=>1
             ],
             [
                 'name'=>'Delivered','status'=>1
