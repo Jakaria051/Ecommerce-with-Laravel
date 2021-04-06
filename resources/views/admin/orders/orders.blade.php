@@ -77,6 +77,12 @@
 
                     <td>
                     <a title="VIew Order Details" href="{{ url('admin/orders/'.$order['id']) }}"><i class="fas fa-file"></i></a>
+                    &nbsp;&nbsp;
+                    @if ($order['order_status'] == "Shipped" || $order['order_status'] == "Delivered")
+                    <a title="VIew Order Details" href="{{ url('admin/view-order-invoice/'.$order['id']) }}"><i class="fas fa-print"></i></a>
+
+                    @endif
+
                     </td>
                   </tr>
                   @endforeach

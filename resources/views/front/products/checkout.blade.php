@@ -140,7 +140,7 @@ use App\Product;
 
                                 </td>
                                 <td> @if (isset($attrPrice['discount']) && !empty($attrPrice['discount']))
-                                    <h2 >${{ $attrPrice['discount'] }}</h2>
+                                    <h2 >${{ $attrPrice['discount']  * $item['quantity']}}</h2>
                                     @endif
                                 </td>
                                 <td>

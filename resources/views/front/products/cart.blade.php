@@ -34,6 +34,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    @php
+                        Session::forget('success_message');
+                    @endphp
                     @endif
                     @if (Session :: has('error_message'))
                     <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
@@ -42,6 +45,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    @php
+                        Session::forget('error_message');
+                    @endphp
                     @endif
 
                     {{-- start ajax --}}
