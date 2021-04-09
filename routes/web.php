@@ -101,6 +101,8 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
 
          //Invoice
          Route::get('view-order-invoice/{id}','OrdersController@viewOrderInvoice');
+         //pdf
+         Route::get('print-pdf-invoice/{id}','OrdersController@printPDFInvoice');
 
 
     });

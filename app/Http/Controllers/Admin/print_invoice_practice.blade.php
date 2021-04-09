@@ -1,86 +1,4 @@
-<?php
-
-namespace App\Http\Controllers\Admin;
-
-use App\Http\Controllers\Controller;
-use App\Order;
-use App\OrdersLog;
-use App\OrderStatus;
-use App\User;
-use Dompdf\Dompdf;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
-
-class OrdersController extends Controller
-{
-    public function orders()
-    {
-        Session::put('page', 'orders');
-        $orders = Order::with('order_products')->orderBy('id', 'desc')->get()->toArray();
-        return view('admin.orders.orders', compact('orders'));
-    }
-
-    public function orderDetails($id)
-    {
-        $orderDetails = Order::with('order_products')->where('id', $id)->first()->toArray();
-        $userDetails = User::where('id', $orderDetails['user_id'])->first()->toArray();
-        $orderStatuses = OrderStatus::where('status', 1)->get()->toArray();
-        $orderLog = OrdersLog::where('order_id', $id)->orderBy('id', 'Desc')->get()->toArray();
-        return view('admin.orders.order_details', compact('orderDetails', 'userDetails', 'orderStatuses', 'orderLog'));
-    }
-
-    public function updateOrderStatus(Request $request)
-    {
-        $data = $request->all();
-        Order::where('id', $data['order_id'])->update(['order_status' => $data['order_status']]);
-        Session::put('success_message', 'Order Status has been updated successfully');
-
-        ///update courier name & tracking number
-        if (!empty($data['courier_name']) && !empty($data['tracking_number'])) {
-            Order::where('id', $data['order_id'])->update(['courier_name' => $data['courier_name'], 'tracking_number' => $data['tracking_number']]);
-        }
-        //send mail
-        $deliveryDetails = Order::select('mobile', 'email', 'name')->where('id', $data['order_id'])->first()->toArray();
-        $orderDetails = Order::with('order_products')->where('id', $data['order_id'])->first()->toArray();
-        // $userDetails = User::where('id', $orderDetails['user_id'])->first()->toArray();
-        $email = $deliveryDetails['email'];
-        $messageData = [
-            'email' => $email,
-            'name' => $deliveryDetails['name'],
-            'order_id' => $data['order_id'],
-            'order_status' => $data['order_status'],
-            'courier_name' => $data['courier_name'],
-            'tracking_number' => $data['tracking_number'],
-            'orderDetails' => $orderDetails,
-        ];
-
-        Mail::send('emails.order_status', $messageData, function ($message) use ($email) {
-            $message->to($email)->subject('Order Status Update');
-        });
-
-        //update order log
-        $log = new OrdersLog();
-        $log->order_id = $data['order_id'];
-        $log->order_status = $data['order_status'];
-        $log->save();
-
-        return redirect()->back();
-    }
-
-    public function viewOrderInvoice($id)
-    {
-        $orderDetails = Order::with('order_products')->where('id', $id)->first()->toArray();
-        $userDetails = User::where('id', $orderDetails['user_id'])->first()->toArray();
-        return view('admin.orders.order_invoice', compact('orderDetails', 'userDetails'));
-    }
-
-    public function printPDFInvoice($id)
-    {
-        $orderDetails = Order::with('order_products')->where('id', $id)->first()->toArray();
-        $userDetails = User::where('id', $orderDetails['user_id'])->first()->toArray();
-
-        $output = '<!DOCTYPE html>
+<!DOCTYPE html>
         <html lang="en">
           <head>
             <meta charset="utf-8">
@@ -298,17 +216,17 @@ class OrdersController extends Controller
               <div id="details" class="clearfix">
                 <div id="client">
                   <div class="to">INVOICE TO:</div>
-                  <h2 class="name">' . data_get($orderDetails, 'name') . '</h2>
-                  <div class="address">' . data_get($orderDetails, 'address') . ',' . data_get($orderDetails, 'city') . ',' . data_get($orderDetails, 'state') . '</div>
-                  <div class="address">' . data_get($orderDetails, 'country') . '-' . data_get($orderDetails, 'pincode') . '</div>
-                  <div class="email"><a href="mailto:' . data_get($orderDetails, 'email') . '">' . data_get($orderDetails, 'email') . '</a></div>
+                  <h2 class="name">'.data_get($orderDetails,'name').'</h2>
+                  <div class="address">'.data_get($orderDetails,'address').','.data_get($orderDetails,'city').','.data_get($orderDetails,'state').'</div>
+                  <div class="address">'.data_get($orderDetails,'country').'-'.data_get($orderDetails,'pincode').'</div>
+                  <div class="email"><a href="mailto:'.data_get($orderDetails,'email').'">'.data_get($orderDetails,'email').'</a></div>
                 </div>
                 <div style="float:right;">
-                  <h1>Order ID ' . data_get($orderDetails, 'id') . '</h1>
-                  <div class="date">Order Date :' . date('F j, Y, g:i a', strtotime($orderDetails['created_at'])) . '</div>
-                  <div class="date">Order Amount : ' . data_get($orderDetails, 'grand_total') . '</div>
-                  <div class="date">Order Status : ' . data_get($orderDetails, 'order_status') . '</div>
-                  <div class="date">Payment Method : ' . data_get($orderDetails, 'payment_method') . '</div>
+                  <h1>Order ID '.data_get($orderDetails,'id').'</h1>
+                  <div class="date">Order Date :'.date('F j, Y, g:i a',strtotime($orderDetails['created_at'] )).'</div>
+                  <div class="date">Order Amount : '.data_get($orderDetails,'grand_total').'</div>
+                  <div class="date">Order Status : '.data_get($orderDetails,'order_status').'</div>
+                  <div class="date">Payment Method : '.data_get($orderDetails,'payment_method').'</div>
 
 
                 </div>
@@ -325,25 +243,25 @@ class OrdersController extends Controller
                   </tr>
                 </thead>
                 <tbody>';
-        $subTotal = 0;
-        foreach ($orderDetails['order_products'] as $product) {
-            $output .= '<tr>
-                    <td class="unit">' . data_get($product, 'product_code') . '</td>
-                    <td class="unit">' . data_get($product, 'product_size') . '</td>
-                    <td class="unit">' . data_get($product, 'product_color') . '</td>
-                    <td class="qty">$ ' . data_get($product, 'product_price') . '</td>
-                    <td class="unit">' . data_get($product, 'product_qty') . '</td>
-                    <td class="total">$ ' . data_get($product, 'product_price') * data_get($product, 'product_qty') . '</td>
+                    $subTotal = 0;
+                    foreach ($orderDetails['order_products'] as $product) {
+                    $output .='<tr>
+                    <td class="unit">'.data_get($product,'product_code').'</td>
+                    <td class="unit">'.data_get($product,'product_size').'</td>
+                    <td class="unit">'.data_get($product,'product_color').'</td>
+                    <td class="qty">$ '.data_get($product,'product_price').'</td>
+                    <td class="unit">'.data_get($product,'product_qty').'</td>
+                    <td class="total">$ '.data_get($product,'product_price') * data_get($product,'product_qty').'</td>
                   </tr>';
-            $subTotal = $subTotal + (data_get($product, 'product_price') * data_get($product, 'product_qty'));
-        }
+                  $subTotal = $subTotal + (data_get($product,'product_price') * data_get($product,'product_qty'));
+                }
 
-        $output .= '</tbody>
+                $output .='</tbody>
                 <tfoot>
                   <tr>
                     <td colspan="2"></td>
                     <td colspan="2">SUBTOTAL</td>
-                    <td>$ ' . $subTotal . '</td>
+                    <td>$ '.$subTotal.'</td>
                   </tr>
                   <tr>
                     <td colspan="2"></td>
@@ -353,31 +271,27 @@ class OrdersController extends Controller
                   <tr>
                     <td colspan="2"></td>
                     <td colspan="2">Coupon Discount</td>';
-        if (data_get($orderDetails, 'coupon_amount') > 0) {
-            $output .= '<td>$ ' . data_get($orderDetails, 'coupon_amount') . '</td>';
-        } else {
-            $output .= '<td>$ 0</td>';
-        }
-        $output .= '</tr>
+                    if (data_get($orderDetails,'coupon_amount') > 0) {
+                    $output .='<td>$ '.data_get($orderDetails,'coupon_amount').'</td>';
+                   }else {
+                    $output .='<td>$ 0</td>';
+                   }
+                    $output .='</tr>
                   <tr>
                     <td colspan="2"></td>
                     <td colspan="2">GRAND TOTAL</td>
-                    <td>$ ' . data_get($orderDetails, 'grand_total') . '</td>
+                    <td>$ '.data_get($orderDetails,'grand_total').'</td>
                   </tr>
                 </tfoot>
               </table>
+              <div id="thanks">Thank you!</div>
+              <div id="notices">
+                <div>NOTICE:</div>
+                <div class="notice">Thanks for choosing our service.</div>
+              </div>
             </main>
             <footer>
               Invoice was created on a computer and is valid without the signature and seal.
             </footer>
           </body>
-        </html>';
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($output);
-        $dompdf->setPaper('A4', 'landscape');
-        $dompdf->render();
-        $dompdf->stream();
-
-        return view('admin.orders.order_invoice', compact('orderDetails', 'userDetails'));
-    }
-}
+        </html>

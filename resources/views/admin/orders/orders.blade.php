@@ -80,6 +80,7 @@
                     &nbsp;&nbsp;
                     @if ($order['order_status'] == "Shipped" || $order['order_status'] == "Delivered")
                     <a title="VIew Order Details" href="{{ url('admin/view-order-invoice/'.$order['id']) }}"><i class="fas fa-print"></i></a>
+                    &nbsp;&nbsp;<a title="Print PDDF Invoice" href="{{ url('admin/print-pdf-invoice/'.$order['id']) }}"><i class="far fa-file-pdf"></i></a>
 
                     @endif
 
